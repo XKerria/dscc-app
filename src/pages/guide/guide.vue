@@ -1,12 +1,17 @@
 <template>
   <view class="guide">
-    <swiper class="swiper">
+    <swiper class="swiper" @change="onSwiperChange" autoplay :interval="5000">
       <block v-for="item of banners" :key="item.id">
         <swiper-item>
           <view class="banner" :style="{ backgroundImage: `url(${item.image})` }"></view>
         </swiper-item>
       </block>
     </swiper>
+    <view class="indicators">
+      <block v-for="(item, index) of banners" :key="index">
+        <view class="indicator" :class="{ active: current === index }"></view>
+      </block>
+    </view>
     <view class="wrapper">
       <view class="enter" @tap="onTap">
         <text class="dscc" decode>DSCC&nbsp;</text>
@@ -21,7 +26,8 @@ export default {
   name: 'index',
   data() {
     return {
-      banners: []
+      banners: [],
+      current: 0
     }
   },
   onLoad() {
@@ -30,6 +36,9 @@ export default {
     })
   },
   methods: {
+    onSwiperChange(e) {
+      this.current = e.detail.current
+    },
     onTap() {
       uni.redirectTo({ url: '/pages/index/index' })
     }
@@ -56,10 +65,38 @@ export default {
     }
   }
 
-  .wrapper {
+  .indicators {
+    position: absolute;
+    bottom: 70rpx;
     width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .indicator {
+      box-sizing: border-box;
+      width: 16rpx;
+      height: 16rpx;
+      border-radius: 8rpx;
+      transition-property: all;
+      transition-duration: 0.3s;
+      background-color: #bebebe;
+    }
+
+    .indicator + .indicator {
+      margin-left: 10rpx;
+    }
+
+    .active {
+      width: 64rpx;
+      background-color: $u-type-primary;
+    }
+  }
+
+  .wrapper {
     position: absolute;
     bottom: 166rpx;
+    width: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
