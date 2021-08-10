@@ -12,6 +12,9 @@ export default {
     }
   },
   onLoad() {},
+  onShow() {
+    uni.hideHomeButton()
+  },
   methods: {}
 }
 </script>

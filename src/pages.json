@@ -4,16 +4,16 @@
   },
   "pages": [
     {
-      "path": "pages/index/index",
-      "style": {
-        "navigationBarTitleText": "uni-app"
-      }
+      "path": "pages/guide/guide"
+    },
+    {
+      "path": "pages/index/index"
     }
   ],
   "globalStyle": {
     "navigationBarTextStyle": "black",
-    "navigationBarTitleText": "uni-app",
-    "navigationBarBackgroundColor": "#F8F8F8",
-    "backgroundColor": "#F8F8F8"
+    "navigationBarTitleText": "DSCC 超跑俱乐部",
+    "navigationBarBackgroundColor": "#f7f7f7",
+    "backgroundColor": "#f7f7f7"
   }
 }
