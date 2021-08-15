@@ -1,14 +1,14 @@
 <template>
   <view class="guide">
     <swiper class="swiper" @change="onSwiperChange" autoplay :interval="5000">
-      <block v-for="item of banners" :key="item.id">
+      <block v-for="item of guides" :key="item.id">
         <swiper-item>
           <view class="banner" :style="{ backgroundImage: `url(${item.image})` }"></view>
         </swiper-item>
       </block>
     </swiper>
     <view class="indicators">
-      <block v-for="(item, index) of banners" :key="index">
+      <block v-for="(item, index) of guides" :key="index">
         <view class="indicator" :class="{ active: current === index }"></view>
       </block>
     </view>
@@ -22,19 +22,24 @@
 </template>
 
 <script>
+import bannerApi from '@/api/banner'
+import { mapGetters } from 'vuex'
 export default {
   name: 'index',
+  computed: {
+    ...mapGetters('glob', ['guides'])
+  },
   data() {
     return {
-      banners: [],
+      // guides: [],
       current: 0
     }
   },
-  onLoad() {
-    this.$u.api.getBanners({ eq: 'type:guide' }).then((data) => {
-      this.banners = data
-    })
-  },
+  // onLoad() {
+  //   bannerApi.index({ eq: 'type:guide' }).then((data) => {
+  //     this.banners = data
+  //   })
+  // },
   methods: {
     onSwiperChange(e) {
       this.current = e.detail.current
