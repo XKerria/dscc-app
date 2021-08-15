@@ -24,6 +24,9 @@ const mutations = {
   },
   set_categories(state, payload) {
     state.categories = payload
+  },
+  set_services(state, payload) {
+    state.services = payload
   }
 }
 
@@ -41,6 +44,11 @@ const actions = {
   loadCategories({ commit }) {
     categoryApi.index({ with: 'services' }).then((data) => {
       commit('set_categories', data)
+      let services = []
+      data.forEach((i) => {
+        services = services.concat(i.services)
+      })
+      commit('set_services', services)
     })
   },
   init({ dispatch }) {

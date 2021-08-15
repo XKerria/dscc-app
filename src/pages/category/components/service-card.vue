@@ -1,5 +1,5 @@
 <template>
-  <view class="card">
+  <view class="card" @click="onClick">
     <image class="icon" :src="service.cover" mode="aspectFit" />
     <view class="wrapper">
       <view class="name">{{ service.name }}</view>
@@ -16,6 +16,11 @@ export default {
     service: {
       type: Object,
       required: true
+    }
+  },
+  methods: {
+    onClick(e) {
+      this.$emit('click', e)
     }
   }
 }

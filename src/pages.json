@@ -11,6 +11,9 @@
     },
     {
       "path": "pages/category/category"
+    },
+    {
+      "path": "pages/service/service"
     }
   ],
   "globalStyle": {

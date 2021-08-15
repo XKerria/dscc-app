@@ -6,7 +6,7 @@
     <u-gap height="60" />
     <block v-for="service of category.services" :key="service.id">
       <view class="service">
-        <service-card :service="service" />
+        <service-card :service="service" @click="onServiceClick(service)" />
       </view>
     </block>
     <u-gap height="60" />
@@ -41,6 +41,11 @@ export default {
   },
   onLoad(params) {
     this.name = params.name
+  },
+  methods: {
+    onServiceClick(service) {
+      uni.navigateTo({ url: `/pages/service/service?name=${service.name}` })
+    }
   }
 }
 </script>
