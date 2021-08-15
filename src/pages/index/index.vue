@@ -56,11 +56,6 @@ export default {
       tab: 0
     }
   },
-  // onLoad() {
-  //   bannerApi.index({ eq: 'type:banner' }).then((data) => {
-  //     this.banners = data
-  //   })
-  // },
   onShow() {
     uni.hideHomeButton()
   },

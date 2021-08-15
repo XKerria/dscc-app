@@ -22,7 +22,6 @@
 </template>
 
 <script>
-import bannerApi from '@/api/banner'
 import { mapGetters } from 'vuex'
 export default {
   name: 'index',
@@ -31,15 +30,9 @@ export default {
   },
   data() {
     return {
-      // guides: [],
       current: 0
     }
   },
-  // onLoad() {
-  //   bannerApi.index({ eq: 'type:guide' }).then((data) => {
-  //     this.banners = data
-  //   })
-  // },
   methods: {
     onSwiperChange(e) {
       this.current = e.detail.current
