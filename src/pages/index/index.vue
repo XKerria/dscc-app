@@ -9,7 +9,6 @@
         <view class="indicator" :class="{ active: banner === index }"></view>
       </block>
     </view>
-    <u-gap height="30" />
     <u-tabs
       :list="tabs"
       :current="tab"
@@ -22,8 +21,16 @@
       bar-height="10"
       bar-width="40"
       font-size="40"
+      height="120"
       gutter="0"
     ></u-tabs>
+    <u-gap height="50" />
+    <block v-if="tab === 0">
+      <paid-list />
+    </block>
+    <block v-else>
+      <free-list />
+    </block>
     <u-gap height="60" />
     <view class="section-title">托管服务</view>
     <u-gap height="50" />
@@ -40,9 +47,13 @@
 import { mapGetters } from 'vuex'
 import TrustCard from './components/trust-card.vue'
 import ContactCard from '@/components/common/contact-card.vue'
+import PaidList from './components/paid-list.vue'
+import FreeList from './components/free-list.vue'
 
 export default {
   components: {
+    PaidList,
+    FreeList,
     TrustCard,
     ContactCard
   },
