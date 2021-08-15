@@ -1,5 +1,5 @@
 <template>
-  <view class="card">
+  <view class="card" @click="onClick">
     <image class="icon" src="/static/images/icon-trust.png" mode="aspectFit" />
     <view class="wrapper">
       <view class="title">托管服务</view>
@@ -18,6 +18,11 @@ export default {
   data() {
     return {
       items: ['车辆托管', '收费垫资', '征信代购', '车辆代售库', '收益计算']
+    }
+  },
+  methods: {
+    onClick(e) {
+      this.$emit('click', e)
     }
   }
 }

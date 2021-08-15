@@ -8,6 +8,9 @@
     },
     {
       "path": "pages/index/index"
+    },
+    {
+      "path": "pages/category/category"
     }
   ],
   "globalStyle": {

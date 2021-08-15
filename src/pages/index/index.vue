@@ -27,7 +27,7 @@
     <u-gap height="60" />
     <view class="section-title">托管服务</view>
     <u-gap height="50" />
-    <trust-card />
+    <trust-card @click="onCategoryClick('托管服务')" />
     <u-gap height="60" />
     <view class="section-title">二维码</view>
     <u-gap height="50" />
@@ -65,6 +65,11 @@ export default {
     },
     onTabChange(index) {
       this.tab = index
+    },
+    onCategoryClick(name) {
+      uni.navigateTo({
+        url: `/pages/category/category?name=${name}`
+      })
     }
   }
 }
