@@ -1,81 +1,86 @@
 <template>
-  <view class="service">
-    <view class="content" @click="onBodyClick">
-      <image class="image" :src="service.image" mode="widthFix" />
+  <view class="reserve">
+    <view class="form">
+      <form-driving ref="form" v-if="name === '自驾'" />
     </view>
+
     <view class="footer">
       <view class="left" @click="onPhoneClick">
         <image class="icon" src="/static/images/icon-contact.png" />
-        <text class="text" v-if="name === '自驾'">订车专线</text>
-        <text class="text" v-else>联系客服</text>
+        <text class="text">联系客服</text>
       </view>
-      <view class="right" @click="onAppClick" v-if="name === '自驾'">
-        <image class="icon" src="/static/images/icon-miniprogram.png" />
-        <text class="text">更多车型</text>
-      </view>
-      <view class="right" @click="onReserveClick" v-else>
+      <view class="right" @click="onSubmitClick">
         <image class="icon" src="/static/images/icon-btn-reserve.png" />
-        <text class="text">点击预约</text>
+        <text class="text">确认预约</text>
       </view>
     </view>
+
+    <u-modal
+      v-model="show"
+      title="提示"
+      content="预约成功，请等待客服反馈"
+      confirm-color="#ff1c3d"
+      :show-cancel-button="false"
+      @confirm="onConfirm"
+    />
   </view>
 </template>
 
 <script>
+import reserveApi from '@/api/reserve'
+import FormDriving from './components/form-driving.vue'
+
 export default {
-  name: 'service',
+  name: 'reserve',
+  components: {
+    FormDriving
+  },
   computed: {
     service() {
       return this.$store.state.glob.services.find((i) => i.name === this.name)
-    },
-    phone() {
-      return this.$store.getters['glob/setting']('客服电话')
     }
   },
   data() {
     return {
+      show: false,
       name: ''
     }
   },
   onLoad(params) {
     this.name = params.name
+    uni.setNavigationBarTitle({ title: params.name })
   },
   methods: {
     onPhoneClick() {
-      uni.makePhoneCall({ phoneNumber: this.phone })
+      uni.makePhoneCall({ phoneNumber: '13017474747' })
     },
-    onAppClick() {
-      uni.navigateToMiniProgram({ appId: 'wxd3f015dca219b365' })
+    onSubmitClick() {
+      this.$refs.form.validate().then((values) => {
+        reserveApi.store({ ...values, service_id: this.service.id }, { type: this.service.name }).then(() => {
+          this.show = true
+        })
+      })
     },
-    onBodyClick() {
-      if (this.name !== '自驾') return
-      uni.navigateTo({ url: `/pages/reserve/reserve?name=${this.name}` })
-    },
-    onReserveClick() {
-      uni.navigateTo({ url: `/pages/reserve/reserve?name=${this.name}` })
+    onConfirm() {
+      uni.navigateBack()
     }
   }
 }
 </script>
 
 <style lang="scss" scoped>
-.service {
-  background-color: #f7f7f7;
+.reserve {
   height: 100vh;
   width: 100vw;
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  padding: 0;
+  background-color: #f7f7f7;
 
-  .content {
+  .form {
     flex: 1;
+    padding: 0 30rpx;
     overflow-y: auto;
-
-    .image {
-      width: 100vw;
-      height: 100%;
-    }
   }
 
   .footer {
@@ -119,7 +124,6 @@ export default {
       z-index: 2;
     }
   }
-
   .footer::before {
     content: '';
     width: 375rpx;

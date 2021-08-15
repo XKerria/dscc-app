@@ -1,11 +1,13 @@
 import bannerApi from '@/api/banner'
 import settingApi from '@/api/setting'
 import categoryApi from '@/api/category'
+import carApi from '@/api/car'
 
 const state = () => ({
   banners: [],
   settings: [],
-  categories: []
+  categories: [],
+  cars: []
 })
 
 const getters = {
@@ -27,6 +29,9 @@ const mutations = {
   },
   set_services(state, payload) {
     state.services = payload
+  },
+  set_cars(state, payload) {
+    state.cars = payload
   }
 }
 
@@ -51,10 +56,16 @@ const actions = {
       commit('set_services', services)
     })
   },
+  loadCars({ commit }) {
+    carApi.index().then((data) => {
+      commit('set_cars', data)
+    })
+  },
   init({ dispatch }) {
     dispatch('loadBanners')
     dispatch('loadSettings')
     dispatch('loadCategories')
+    dispatch('loadCars')
   }
 }
 
