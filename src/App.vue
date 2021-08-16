@@ -4,9 +4,13 @@ import { mapActions } from 'vuex'
 export default {
   onLaunch: function() {
     this.init()
+    uni.login().then(([_, res]) => {
+      this.login(res)
+    })
   },
   methods: {
-    ...mapActions('glob', ['init'])
+    ...mapActions('glob', ['init']),
+    ...mapActions('auth', ['login'])
   }
 }
 </script>
