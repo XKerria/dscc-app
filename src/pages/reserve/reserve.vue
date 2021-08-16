@@ -2,6 +2,7 @@
   <view class="reserve">
     <view class="form">
       <form-driving ref="form" v-if="name === '自驾'" />
+      <form-pickup ref="form" v-if="name === '接送'" />
     </view>
 
     <view class="footer">
@@ -29,11 +30,13 @@
 <script>
 import reserveApi from '@/api/reserve'
 import FormDriving from './components/form-driving.vue'
+import FormPickup from './components/form-pickup.vue'
 
 export default {
   name: 'reserve',
   components: {
-    FormDriving
+    FormDriving,
+    FormPickup
   },
   computed: {
     service() {

@@ -57,8 +57,11 @@
         <u-form-item label="总价">
           <text class="number">￥{{ total }}</text>
         </u-form-item>
-        <u-form-item label="备注" prop="remark" :border-bottom="false">
+        <u-form-item label="备注" prop="remark">
           <u-input v-model="model.remark" type="textarea" height="60" placeholder="备注" maxlength="255" auto-height />
+        </u-form-item>
+        <u-form-item label="优惠券" prop="remark" :border-bottom="false" right-icon="arrow-right">
+          <text class="number">500元现金抵扣券</text>
         </u-form-item>
       </u-form>
     </view>
