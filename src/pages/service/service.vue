@@ -4,7 +4,7 @@
       <image class="image" :src="service.image" mode="widthFix" />
     </view>
     <view class="footer">
-      <view class="left" @click="onPhoneClick">
+      <view class="left" @click="onCallClick">
         <image class="icon" src="/static/images/icon-contact.png" />
         <text class="text" v-if="name === '自驾'">订车专线</text>
         <text class="text" v-else>联系客服</text>
@@ -18,13 +18,24 @@
         <text class="text">点击预约</text>
       </view>
     </view>
+
+    <u-modal v-model="show" title="登录" :show-cancel-button="false" :show-confirm-button="false">
+      <view class="register">
+        <u-button type="primary" shape="circle" open-type="getPhoneNumber" @getphonenumber="onPhoneClick">
+          一键登录
+        </u-button>
+      </view>
+    </u-modal>
   </view>
 </template>
 
 <script>
+import { mapActions, mapState } from 'vuex'
+
 export default {
   name: 'service',
   computed: {
+    ...mapState('auth', ['wechat']),
     service() {
       return this.$store.state.glob.services.find((i) => i.name === this.name)
     },
@@ -34,14 +45,16 @@ export default {
   },
   data() {
     return {
-      name: ''
+      name: '',
+      show: false
     }
   },
   onLoad(params) {
     this.name = params.name
   },
   methods: {
-    onPhoneClick() {
+    ...mapActions('auth', ['bindPhone']),
+    onCallClick() {
       uni.makePhoneCall({ phoneNumber: this.phone })
     },
     onAppClick() {
@@ -49,10 +62,25 @@ export default {
     },
     onBodyClick() {
       if (this.name !== '自驾') return
-      uni.navigateTo({ url: `/pages/reserve/reserve?name=${this.name}` })
+      this.toReserve()
     },
     onReserveClick() {
-      uni.navigateTo({ url: `/pages/reserve/reserve?name=${this.name}` })
+      this.toReserve()
+    },
+    toReserve() {
+      if (!this.wechat.phone) {
+        this.show = true
+      } else {
+        uni.navigateTo({ url: `/pages/reserve/reserve?name=${this.name}` })
+      }
+    },
+    onPhoneClick(e) {
+      console.log(e)
+      if (e.detail) {
+        this.bindPhone(e.detail).then(() => {
+          uni.navigateTo({ url: `/pages/reserve/reserve?name=${this.name}` })
+        })
+      }
     }
   }
 }
@@ -130,6 +158,10 @@ export default {
     border-radius: 0 50% 50% 0;
     background-image: linear-gradient(45deg, #ff743c, #ff1c3d);
     z-index: 1;
+  }
+
+  .register {
+    padding: 40rpx;
   }
 }
 </style>

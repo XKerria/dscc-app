@@ -1,7 +1,13 @@
 import axios from '@/utils/axios'
 
 export default {
-  store(data) {
-    return axios.post('/wechats', data)
+  current(code) {
+    return axios.get('/wechats/current', { params: { code } })
+  },
+  update(openid, data) {
+    return axios.put(`/wechats/${openid}`, data)
+  },
+  decrypt(data) {
+    return axios.post(`/wechats/decrypt`, data)
   }
 }

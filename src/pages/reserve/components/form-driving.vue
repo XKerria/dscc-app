@@ -69,6 +69,8 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
+
 const params = {
   year: true,
   month: true,
@@ -99,6 +101,7 @@ const rules = {
 export default {
   name: 'form',
   computed: {
+    ...mapState('auth', ['wechat']),
     cars() {
       return this.$store.state.glob.cars.map((i) => ({ ...i, label: i.name, value: i.name, extra: i.id }))
     },
@@ -125,6 +128,8 @@ export default {
   },
   onReady() {
     this.$refs.form.setRules(rules)
+    if (this.wechat.phone) this.model.phone = this.wechat.phone
+    if (this.wechat.nickname) this.model.name = this.wechat.nickname
   },
   methods: {
     validate() {

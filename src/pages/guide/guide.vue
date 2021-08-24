@@ -13,7 +13,7 @@
       </block>
     </view>
     <view class="wrapper">
-      <view class="enter" @tap="onTap">
+      <view class="enter" @tap="onClick">
         <text class="dscc" decode>DSCC&nbsp;</text>
         <text>超跑俱乐部</text>
       </view>
@@ -22,7 +22,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 export default {
   name: 'index',
   computed: {
@@ -34,11 +34,14 @@ export default {
     }
   },
   methods: {
+    ...mapActions('auth', ['updateWechat']),
     onSwiperChange(e) {
       this.current = e.detail.current
     },
-    onTap() {
-      uni.redirectTo({ url: '/pages/index/index' })
+    onClick() {
+      this.updateWechat().finally(() => {
+        uni.redirectTo({ url: '/pages/index/index' })
+      })
     }
   }
 }
