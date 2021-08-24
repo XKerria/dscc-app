@@ -15,6 +15,7 @@
           <view class="nickname">
             <open-data type="userNickName"></open-data>
           </view>
+          <image src="/static/images/icon-svip.png" class="vip" mode="aspectFit" />
         </view>
       </view>
 
@@ -101,6 +102,12 @@ export default {
           font-size: 36rpx;
           color: #fff;
           font-weight: 500;
+          padding: 0 10rpx;
+        }
+
+        .vip {
+          width: 138rpx;
+          height: 57rpx;
         }
       }
     }
