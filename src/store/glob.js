@@ -7,7 +7,8 @@ const state = () => ({
   banners: [],
   settings: [],
   categories: [],
-  cars: []
+  cars: [],
+  services: []
 })
 
 const getters = {

@@ -1,9 +1,12 @@
 .page {
   width: 100vw;
   height: 100vh;
-  padding: 0 30rpx;
   background-color: #f7f7f7;
   overflow-y: auto;
+}
+
+.container {
+  padding: 0 30rpx;
 }
 
 .u-tab-item + .u-tab-item {

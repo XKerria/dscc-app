@@ -17,6 +17,10 @@
     },
     {
       "path": "pages/reserve/reserve"
+    },
+    {
+      "path": "pages/user/user",
+      "navigationBarTitleText": "我的"
     }
   ],
   "globalStyle": {
