@@ -20,7 +20,11 @@
     },
     {
       "path": "pages/user/user",
-      "navigationBarTitleText": "我的"
+      "style": {
+        "navigationBarTitleText": "我的",
+        "navigationBarBackgroundColor": "#fe6240",
+        "navigationBarTextStyle": "white"
+      }
     }
   ],
   "globalStyle": {

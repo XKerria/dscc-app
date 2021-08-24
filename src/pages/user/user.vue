@@ -1,13 +1,58 @@
 <template>
   <view class="page user">
-    <view class="container main"> </view>
+    <view class="main">
+      <view class="arc">
+        <ui-arc />
+      </view>
+
+      <u-gap height="66" />
+
+      <view class="panel panel-base">
+        <view class="avatar">
+          <open-data type="userAvatarUrl"></open-data>
+        </view>
+        <view class="base">
+          <view class="nickname">
+            <open-data type="userNickName"></open-data>
+          </view>
+        </view>
+      </view>
+
+      <u-gap height="40" />
+
+      <view class="panel panel-points">
+        <view class="panel-points-title">会员积分</view>
+        <text class="panel-points-points">17898</text>
+      </view>
+
+      <u-gap height="50" />
+
+      <view class="panel panel-actions">
+        <action icon="member">会员中心</action>
+        <action icon="user">我的信息</action>
+        <action icon="coupon">我的券包</action>
+        <action icon="clock">我的预约</action>
+        <action icon="service" :border-bottom="false">联系客服</action>
+      </view>
+
+      <u-gap height="50" />
+
+      <contact-card class="panel" />
+
+      <u-gap height="100" />
+    </view>
+
     <ui-footer />
   </view>
 </template>
 
 <script>
+import Action from './components/action.vue'
+import ContactCard from '@/components/common/contact-card.vue'
+
 export default {
-  name: 'user'
+  name: 'user',
+  components: { Action, ContactCard }
 }
 </script>
 
@@ -17,7 +62,91 @@ export default {
   flex-direction: column;
 
   .main {
+    position: relative;
     flex: 1;
+    padding: 0 30rpx;
+    overflow-y: auto;
+    overflow-x: hidden;
+
+    .arc {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 0;
+    }
+
+    .panel {
+      position: relative;
+      z-index: 2;
+    }
+
+    .panel-base {
+      display: flex;
+      align-items: center;
+
+      .avatar {
+        width: 120rpx;
+        height: 120rpx;
+        border-radius: 50%;
+        overflow: hidden;
+        margin-left: 20rpx;
+        box-shadow: 0 0 20rpx 0 rgba(0, 0, 0, 0.1);
+      }
+
+      .base {
+        margin-left: 40rpx;
+
+        .nickname {
+          font-size: 36rpx;
+          color: #fff;
+          font-weight: 500;
+        }
+      }
+    }
+
+    .panel-points {
+      position: relative;
+      height: 160rpx;
+      border-radius: 10rpx;
+      box-shadow: 0 0 20rpx 0 rgba(0, 0, 0, 0.1);
+      padding: 30rpx;
+
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      background-color: #fff;
+      background-repeat: no-repeat;
+      background-position: bottom right;
+      background-size: auto 112rpx;
+      background-image: url('/static/images/bg-member.png');
+
+      &-title {
+        position: absolute;
+        font-size: 28rpx;
+        line-height: 1em;
+        letter-spacing: 2rpx;
+        font-weight: bold;
+        top: 30rpx;
+        left: 30rpx;
+      }
+
+      &-points {
+        font-family: 'Bebas Neue';
+        font-size: 48rpx;
+        line-height: 1em;
+        letter-spacing: 3rpx;
+        color: $u-type-primary;
+        font-weight: 500;
+      }
+    }
+
+    .panel-actions {
+      border-radius: 10rpx;
+      box-shadow: 0 0 20rpx 0 rgba(0, 0, 0, 0.1);
+      background-color: #fff;
+    }
   }
 }
 </style>
