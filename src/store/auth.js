@@ -28,7 +28,7 @@ const actions = {
   updateUser({ state, commit }) {
     return new Promise((resolve, reject) => {
       uni
-        .getUserProfile({ desc: '用户注册' })
+        .getUserProfile({ desc: '用户注册', lang: 'zh_CN' })
         .then(([err, res]) => {
           if (err) throw new Error(err.errMsg)
           return userApi.update(state.user.openid, {

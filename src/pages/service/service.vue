@@ -1,7 +1,22 @@
 <template>
   <view class="service">
     <view class="content" @click="onBodyClick">
-      <image class="image" :src="service.image" mode="widthFix" />
+      <view v-if="service.video_url" class="video">
+        <video
+          class="video-player"
+          loop
+          autoplay
+          object-fit="cover"
+          :src="service.video_url"
+          :controls="false"
+          :muted="muted"
+        ></video>
+        <view class="mute">
+          <u-icon v-if="muted" name="volume-off-fill" color="#fff" size="32" @click="onMutedClick" />
+          <u-icon v-else name="volume-up-fill" color="#fff" size="32" @click="onMutedClick" />
+        </view>
+      </view>
+      <rich-text :nodes="nodes" />
     </view>
     <view class="footer">
       <view class="left" @click="onCallClick">
@@ -31,6 +46,7 @@
 
 <script>
 import { mapActions, mapState } from 'vuex'
+import htmlUtils from '@/utils/html'
 
 export default {
   name: 'service',
@@ -41,12 +57,16 @@ export default {
     },
     phone() {
       return this.$store.getters['glob/setting']('客服电话')
+    },
+    nodes() {
+      return this.service && this.service.content ? htmlUtils.parse(htmlUtils.format(this.service.content)) : []
     }
   },
   data() {
     return {
       name: '',
-      show: false
+      show: false,
+      muted: true
     }
   },
   onLoad(params) {
@@ -75,12 +95,14 @@ export default {
       }
     },
     onPhoneClick(e) {
-      console.log(e)
       if (e.detail) {
         this.bindPhone(e.detail).then(() => {
           uni.navigateTo({ url: `/pages/reserve/reserve?name=${this.name}` })
         })
       }
+    },
+    onMutedClick() {
+      this.muted = !this.muted
     }
   }
 }
@@ -99,6 +121,23 @@ export default {
   .content {
     flex: 1;
     overflow-y: auto;
+
+    .video {
+      position: relative;
+      width: 100%;
+      height: 388rpx;
+      padding: 30rpx;
+
+      &-player {
+        width: 100%;
+        height: 100%;
+      }
+      .mute {
+        position: absolute;
+        right: 48rpx;
+        top: 48rpx;
+      }
+    }
 
     .image {
       width: 100vw;

@@ -1,6 +1,6 @@
 <template>
   <view class="card" @click="onClick">
-    <image class="icon" :src="service.cover" mode="aspectFit" />
+    <image class="icon" :src="service.icon_url" mode="aspectFit" />
     <view class="wrapper">
       <view class="name">{{ service.name }}</view>
       <view class="intro">{{ service.intro }}</view>
