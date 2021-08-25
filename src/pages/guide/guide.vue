@@ -34,12 +34,12 @@ export default {
     }
   },
   methods: {
-    ...mapActions('auth', ['updateWechat']),
+    ...mapActions('auth', ['updateUser']),
     onSwiperChange(e) {
       this.current = e.detail.current
     },
     onClick() {
-      this.updateWechat().finally(() => {
+      this.updateUser().finally(() => {
         uni.redirectTo({ url: '/pages/index/index' })
       })
     }

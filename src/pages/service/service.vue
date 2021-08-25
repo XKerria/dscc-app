@@ -35,7 +35,7 @@ import { mapActions, mapState } from 'vuex'
 export default {
   name: 'service',
   computed: {
-    ...mapState('auth', ['wechat']),
+    ...mapState('auth', ['user']),
     service() {
       return this.$store.state.glob.services.find((i) => i.name === this.name)
     },
@@ -68,7 +68,7 @@ export default {
       this.toReserve()
     },
     toReserve() {
-      if (!this.wechat.phone) {
+      if (!this.user.phone) {
         this.show = true
       } else {
         uni.navigateTo({ url: `/pages/reserve/reserve?name=${this.name}` })

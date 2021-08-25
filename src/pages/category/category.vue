@@ -1,5 +1,5 @@
 <template>
-  <view class="page category" v-if="category">
+  <view class="page container category" v-if="category">
     <ui-section>{{ category.name }}</ui-section>
     <u-gap height="20" />
     <view class="intro">{{ category.intro }}</view>

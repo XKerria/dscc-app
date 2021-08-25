@@ -101,7 +101,7 @@ const rules = {
 export default {
   name: 'form',
   computed: {
-    ...mapState('auth', ['wechat']),
+    ...mapState('auth', ['user']),
     cars() {
       return this.$store.state.glob.cars.map((i) => ({ ...i, label: i.name, value: i.name, extra: i.id }))
     },
@@ -128,8 +128,8 @@ export default {
   },
   onReady() {
     this.$refs.form.setRules(rules)
-    if (this.wechat.phone) this.model.phone = this.wechat.phone
-    if (this.wechat.nickname) this.model.name = this.wechat.nickname
+    if (this.user.phone) this.model.phone = this.user.phone
+    if (this.user.nickname) this.model.name = this.user.nickname
   },
   methods: {
     validate() {

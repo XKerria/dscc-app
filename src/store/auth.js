@@ -1,45 +1,45 @@
-import wechatApi from '@/api/wechat'
+import userApi from '@/api/user'
 
 const state = () => ({
-  wechat: null
+  user: null
 })
 
 const mutations = {
-  set_wechat(state, payload) {
-    state.wechat = payload
+  set_user(state, payload) {
+    state.user = payload
   }
 }
 
 const actions = {
-  loadWechat({ commit }) {
+  loadUser({ commit }) {
     return new Promise((resolve, reject) => {
       uni
         .login()
         .then(([_, res]) => {
-          return wechatApi.current(res.code)
+          return userApi.current(res.code)
         })
         .then((data) => {
-          commit('set_wechat', data)
+          commit('set_user', data)
           resolve()
         })
         .catch((e) => reject(e))
     })
   },
-  updateWechat({ state, commit }) {
+  updateUser({ state, commit }) {
     return new Promise((resolve, reject) => {
       uni
         .getUserProfile({ desc: '用户注册' })
         .then(([err, res]) => {
           if (err) throw new Error(err.errMsg)
-          return wechatApi.update(state.wechat.openid, {
-            ...state.wechat,
+          return userApi.update(state.user.openid, {
+            ...state.user,
             ...res.userInfo,
             avatar: res.userInfo.avatarUrl,
             nickname: res.userInfo.nickName
           })
         })
         .then((data) => {
-          commit('set_wechat', data)
+          commit('set_user', data)
           resolve(data)
         })
         .catch((e) => reject(e))
@@ -47,13 +47,13 @@ const actions = {
   },
   bindPhone({ state, commit }, data) {
     return new Promise((resolve, reject) => {
-      wechatApi
-        .decrypt({ ...data, session_key: state.wechat.session_key })
+      userApi
+        .decrypt({ ...data, session_key: state.user.session_key })
         .then((res) => {
-          return wechatApi.update(state.wechat.openid, { ...state.wechat, phone: res.phoneNumber })
+          return userApi.update(state.user.openid, { ...state.user, phone: res.phoneNumber })
         })
         .then((res) => {
-          commit('set_wechat', res)
+          commit('set_user', res)
           resolve(res)
         })
         .catch((e) => reject(e))

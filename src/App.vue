@@ -4,11 +4,11 @@ import { mapActions } from 'vuex'
 export default {
   onLaunch: function() {
     this.init()
-    this.loadWechat()
+    this.loadUser()
   },
   methods: {
     ...mapActions('glob', ['init']),
-    ...mapActions('auth', ['loadWechat'])
+    ...mapActions('auth', ['loadUser'])
   }
 }
 </script>
