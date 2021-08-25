@@ -1,27 +1,33 @@
 <template>
   <view class="ui-footer">
-    <view v-if="active === 'home'" class="button active">
-      <image class="icon" src="/static/images/icon-home.png" mode="aspectFit" />
-      <view class="text">首页</view>
-    </view>
-    <view v-else class="button" @click="onClick('/pages/index/index')">
-      <image class="icon" src="/static/images/icon-home-in.png" mode="aspectFit" />
-      <view class="text">首页</view>
+    <view class="wrapper">
+      <view v-if="active === 'home'" class="button active">
+        <image class="icon" src="/static/images/icon-home.png" mode="aspectFit" />
+        <view class="text">首页</view>
+      </view>
+      <view v-else class="button" @click="onClick('/pages/index/index')">
+        <image class="icon" src="/static/images/icon-home-in.png" mode="aspectFit" />
+        <view class="text">首页</view>
+      </view>
+
+      <view v-if="active === 'user'" class="button active">
+        <image class="icon" src="/static/images/icon-user.png" mode="aspectFit" />
+        <view class="text">我的</view>
+      </view>
+      <view v-else class="button" @click="onClick('/pages/user/user')">
+        <image class="icon" src="/static/images/icon-user-in.png" mode="aspectFit" />
+        <view class="text">我的</view>
+      </view>
     </view>
 
-    <view v-if="active === 'user'" class="button active">
-      <image class="icon" src="/static/images/icon-user.png" mode="aspectFit" />
-      <view class="text">我的</view>
-    </view>
-    <view v-else class="button" @click="onClick('/pages/user/user')">
-      <image class="icon" src="/static/images/icon-user-in.png" mode="aspectFit" />
-      <view class="text">我的</view>
-    </view>
+    <phone-bind ref="bind" @bind="toUserPage" />
   </view>
 </template>
 
 <script>
+import { mapState } from 'vuex'
 import { currentUrl } from '@/utils/page'
+import PhoneBind from '@/components/common/phone-bind'
 
 const map = {
   'pages/index/index': 'home',
@@ -30,6 +36,10 @@ const map = {
 
 export default {
   name: 'ui-footer',
+  components: { PhoneBind },
+  computed: {
+    ...mapState('auth', ['user'])
+  },
   data() {
     return {
       active: 'home'
@@ -44,7 +54,16 @@ export default {
         uni.reLaunch({ url: page })
         return
       }
+
+      if (page === '/pages/user/user' && !this.user.phone) {
+        this.$refs.bind.show()
+        return
+      }
+
       uni.navigateTo({ url: page })
+    },
+    toUserPage() {
+      uni.navigateTo({ url: '/pages/user/user' })
     }
   }
 }
@@ -55,30 +74,39 @@ export default {
   width: 100vw;
   height: 110rpx;
   background-color: #fff;
+  position: relative;
 
-  display: flex;
-  align-items: center;
-  justify-content: space-around;
+  .wrapper {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
 
-  .button {
-    font-size: 20rpx;
-    text-align: center;
-    letter-spacing: 2rpx;
-    color: #999;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
 
-    .icon {
-      width: 50rpx;
-      height: 50rpx;
+    .button {
+      font-size: 20rpx;
+      text-align: center;
+      letter-spacing: 2rpx;
+      color: #999;
+
+      .icon {
+        width: 50rpx;
+        height: 50rpx;
+      }
+
+      .text {
+        margin-top: 10rpx;
+        line-height: 1em;
+      }
     }
 
-    .text {
-      margin-top: 10rpx;
-      line-height: 1em;
+    .active {
+      color: #333;
     }
-  }
-
-  .active {
-    color: #333;
   }
 }
 </style>

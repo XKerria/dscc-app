@@ -23,7 +23,7 @@
 
       <view class="panel panel-points">
         <view class="panel-points-title">会员积分</view>
-        <text class="panel-points-points">17898</text>
+        <text class="panel-points-points">{{ user.points }}</text>
       </view>
 
       <u-gap height="50" />
@@ -48,12 +48,16 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
 import Action from './components/action.vue'
 import ContactCard from '@/components/common/contact-card.vue'
 
 export default {
   name: 'user',
-  components: { Action, ContactCard }
+  components: { Action, ContactCard },
+  computed: {
+    ...mapState('auth', ['user'])
+  }
 }
 </script>
 

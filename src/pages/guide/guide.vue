@@ -22,10 +22,12 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex'
+import { mapActions, mapState, mapGetters } from 'vuex'
+
 export default {
   name: 'index',
   computed: {
+    ...mapState('auth', ['user']),
     ...mapGetters('glob', ['guides'])
   },
   data() {
@@ -39,9 +41,13 @@ export default {
       this.current = e.detail.current
     },
     onClick() {
-      this.updateUser().finally(() => {
-        uni.redirectTo({ url: '/pages/index/index' })
-      })
+      if (!this.user.id) {
+        this.updateUser().then(() => {
+          uni.redirectTo({ url: '/pages/index/index' })
+        })
+        return
+      }
+      uni.redirectTo({ url: '/pages/index/index' })
     }
   }
 }

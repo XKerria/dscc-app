@@ -34,22 +34,18 @@
       </view>
     </view>
 
-    <u-modal v-model="show" title="登录" :show-cancel-button="false" :show-confirm-button="false">
-      <view class="register">
-        <u-button type="primary" shape="circle" open-type="getPhoneNumber" @getphonenumber="onPhoneClick">
-          一键登录
-        </u-button>
-      </view>
-    </u-modal>
+    <phone-bind ref="bind" @bind="onPhoneBind" />
   </view>
 </template>
 
 <script>
-import { mapActions, mapState } from 'vuex'
+import { mapState } from 'vuex'
 import htmlUtils from '@/utils/html'
+import PhoneBind from '@/components/common/phone-bind'
 
 export default {
   name: 'service',
+  components: { PhoneBind },
   computed: {
     ...mapState('auth', ['user']),
     service() {
@@ -65,7 +61,6 @@ export default {
   data() {
     return {
       name: '',
-      show: false,
       muted: true
     }
   },
@@ -73,7 +68,6 @@ export default {
     this.name = params.name
   },
   methods: {
-    ...mapActions('auth', ['bindPhone']),
     onCallClick() {
       uni.makePhoneCall({ phoneNumber: this.phone })
     },
@@ -89,17 +83,13 @@ export default {
     },
     toReserve() {
       if (!this.user.phone) {
-        this.show = true
+        this.$refs.bind.show()
       } else {
         uni.navigateTo({ url: `/pages/reserve/reserve?name=${this.name}` })
       }
     },
-    onPhoneClick(e) {
-      if (e.detail) {
-        this.bindPhone(e.detail).then(() => {
-          uni.navigateTo({ url: `/pages/reserve/reserve?name=${this.name}` })
-        })
-      }
+    onPhoneBind() {
+      uni.navigateTo({ url: `/pages/reserve/reserve?name=${this.name}` })
     },
     onMutedClick() {
       this.muted = !this.muted
@@ -197,10 +187,6 @@ export default {
     border-radius: 0 50% 50% 0;
     background-image: linear-gradient(45deg, #ff743c, #ff1c3d);
     z-index: 1;
-  }
-
-  .register {
-    padding: 40rpx;
   }
 }
 </style>

@@ -31,12 +31,17 @@ const actions = {
         .getUserProfile({ desc: '用户注册', lang: 'zh_CN' })
         .then(([err, res]) => {
           if (err) throw new Error(err.errMsg)
-          return userApi.update(state.user.openid, {
+          const data = {
             ...state.user,
             ...res.userInfo,
             avatar: res.userInfo.avatarUrl,
             nickname: res.userInfo.nickName
-          })
+          }
+          if (state.user.id) {
+            return userApi.update(state.user.id, data)
+          } else {
+            return Promise.resolve(data)
+          }
         })
         .then((data) => {
           commit('set_user', data)
@@ -50,7 +55,11 @@ const actions = {
       userApi
         .decrypt({ ...data, session_key: state.user.session_key })
         .then((res) => {
-          return userApi.update(state.user.openid, { ...state.user, phone: res.phoneNumber })
+          if (state.user.id) {
+            return userApi.update(state.user.id, { ...state.user, phone: res.phoneNumber })
+          } else {
+            return userApi.store({ ...state.user, phone: res.phoneNumber })
+          }
         })
         .then((res) => {
           commit('set_user', res)
