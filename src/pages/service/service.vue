@@ -116,11 +116,13 @@ export default {
       position: relative;
       width: 100%;
       height: 388rpx;
-      padding: 30rpx;
+      padding: 0 30rpx;
 
       &-player {
         width: 100%;
         height: 100%;
+        border-top-left-radius: 16rpx;
+        border-top-right-radius: 16rpx;
       }
       .mute {
         position: absolute;
