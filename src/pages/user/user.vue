@@ -15,7 +15,7 @@
           <view class="nickname">
             <open-data type="userNickName"></open-data>
           </view>
-          <image src="/static/images/icon-svip.png" class="vip" mode="aspectFit" />
+          <image v-if="user.vip" :src="user.vip.icon_url" class="vip" mode="aspectFit" />
         </view>
       </view>
 
