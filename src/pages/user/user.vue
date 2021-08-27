@@ -28,7 +28,7 @@
       <u-gap height="50" />
 
       <view class="panel panel-actions">
-        <action icon="member">会员中心</action>
+        <action v-if="user.vip" icon="member" @click="onVipClick">会员中心</action>
         <action icon="user" @click="onInfoClick">我的信息</action>
         <action icon="coupon">我的券包</action>
         <action icon="clock">我的预约</action>
@@ -64,12 +64,15 @@ export default {
     ...mapActions('auth', ['updateUser']),
     onInfoClick() {
       if (this.user.nickname) {
-        uni.navigateTo({ url: '/pages/info/info' })
+        uni.navigateTo({ url: '/pages/user/info' })
         return
       }
       this.updateUser().then(() => {
-        uni.navigateTo({ url: '/pages/info/info' })
+        uni.navigateTo({ url: '/pages/user/info' })
       })
+    },
+    onVipClick() {
+      uni.navigateTo({ url: '/pages/user/vip' })
     },
     onPhoneClick() {
       uni.makePhoneCall({ phoneNumber: this.phone })

@@ -27,11 +27,17 @@
       }
     },
     {
-      "path": "pages/info/info",
+      "path": "pages/user/info",
       "style": {
         "navigationBarTitleText": "我的",
         "navigationBarBackgroundColor": "#fe6240",
         "navigationBarTextStyle": "white"
+      }
+    },
+    {
+      "path": "pages/user/vip",
+      "style": {
+        "navigationBarTitleText": "我的"
       }
     },
     {
