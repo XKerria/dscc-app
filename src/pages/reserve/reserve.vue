@@ -41,6 +41,9 @@ export default {
   computed: {
     service() {
       return this.$store.state.glob.services.find((i) => i.name === this.name)
+    },
+    phone() {
+      return this.$store.getters['glob/setting']('客服电话')
     }
   },
   data() {
@@ -55,7 +58,7 @@ export default {
   },
   methods: {
     onPhoneClick() {
-      uni.makePhoneCall({ phoneNumber: '13017474747' })
+      uni.makePhoneCall({ phoneNumber: this.phone })
     },
     onSubmitClick() {
       this.$refs.form.validate().then((values) => {

@@ -32,7 +32,7 @@
         <action icon="user" @click="onInfoClick">我的信息</action>
         <action icon="coupon">我的券包</action>
         <action icon="clock">我的预约</action>
-        <action icon="service" :border-bottom="false">联系客服</action>
+        <action icon="service" :border-bottom="false" @click="onPhoneClick">联系客服</action>
       </view>
 
       <u-gap height="50" />
@@ -55,7 +55,10 @@ export default {
   name: 'user',
   components: { Action, ContactCard },
   computed: {
-    ...mapState('auth', ['user'])
+    ...mapState('auth', ['user']),
+    phone() {
+      return this.$store.getters['glob/setting']('客服电话')
+    }
   },
   methods: {
     ...mapActions('auth', ['updateUser']),
@@ -67,6 +70,9 @@ export default {
       this.updateUser().then(() => {
         uni.navigateTo({ url: '/pages/info/info' })
       })
+    },
+    onPhoneClick() {
+      uni.makePhoneCall({ phoneNumber: this.phone })
     }
   }
 }
