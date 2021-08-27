@@ -1,16 +1,40 @@
 import userApi from '@/api/user'
+import ticketApi from '@/api/ticket'
+import dayjs from 'dayjs'
 
 const state = () => ({
-  user: null
+  user: null,
+  tickets: []
 })
 
 const mutations = {
   set_user(state, payload) {
     state.user = payload
+  },
+  set_tickets(state, payload) {
+    state.tickets = payload
   }
 }
 
 const actions = {
+  loadTickets({ state, commit }) {
+    return new Promise((resolve, reject) => {
+      if (state.user && state.user.id) {
+        ticketApi
+          .index({
+            compare: `user_id:${state.user.id}|expired_at:${encodeURIComponent(dayjs().toISOString())},>|used_at:`,
+            with: 'partner|coupon'
+          })
+          .then((res) => {
+            commit('set_tickets', res)
+            resolve(res)
+          })
+          .catch((e) => reject(e))
+      } else {
+        resolve([])
+      }
+    })
+  },
   loadUser({ commit }) {
     return new Promise((resolve, reject) => {
       uni

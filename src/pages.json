@@ -29,7 +29,7 @@
     {
       "path": "pages/user/info",
       "style": {
-        "navigationBarTitleText": "我的",
+        "navigationBarTitleText": "我的信息",
         "navigationBarBackgroundColor": "#fe6240",
         "navigationBarTextStyle": "white"
       }
@@ -37,7 +37,13 @@
     {
       "path": "pages/user/vip",
       "style": {
-        "navigationBarTitleText": "我的"
+        "navigationBarTitleText": "我的VIP"
+      }
+    },
+    {
+      "path": "pages/user/wallet",
+      "style": {
+        "navigationBarTitleText": "我的券包"
       }
     },
     {

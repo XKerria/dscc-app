@@ -30,7 +30,7 @@
       <view class="panel panel-actions">
         <action v-if="user.vip" icon="member" @click="onVipClick">会员中心</action>
         <action icon="user" @click="onInfoClick">我的信息</action>
-        <action icon="coupon">我的券包</action>
+        <action icon="coupon" @click="onWalletClick">我的券包</action>
         <action icon="clock">我的预约</action>
         <action icon="service" :border-bottom="false" @click="onPhoneClick">联系客服</action>
       </view>
@@ -73,6 +73,9 @@ export default {
     },
     onVipClick() {
       uni.navigateTo({ url: '/pages/user/vip' })
+    },
+    onWalletClick() {
+      uni.navigateTo({ url: '/pages/user/wallet' })
     },
     onPhoneClick() {
       uni.makePhoneCall({ phoneNumber: this.phone })

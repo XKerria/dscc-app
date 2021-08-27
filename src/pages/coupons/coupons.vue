@@ -30,7 +30,7 @@
 </template>
 
 <script>
-import { mapState, mapGetters } from 'vuex'
+import { mapActions, mapState, mapGetters } from 'vuex'
 import PhoneBind from '@/components/common/phone-bind'
 import dayjs from 'dayjs'
 import ticketApi from '@/api/ticket'
@@ -41,7 +41,7 @@ export default {
   computed: {
     ...mapGetters('glob', ['setting']),
     ...mapState('glob', ['coupons']),
-    ...mapState('auth', ['user']),
+    ...mapState('auth', ['user', 'tickets']),
     bg() {
       return this.setting('优惠券背景')
     }
@@ -55,6 +55,7 @@ export default {
     this.partnerId = options.partnerId
   },
   methods: {
+    ...mapActions('auth', ['loadTickets']),
     duration(coupon) {
       return (
         dayjs().format('YYYY-MM-DD') +
@@ -65,20 +66,39 @@ export default {
       )
     },
     onCouponClick(coupon) {
+      this.$u.throttle(() => this.obtain(coupon), 1000)
+    },
+    obtain(coupon) {
       if (!this.user || !this.user.phone) {
         this.$refs.bind.show()
         return
       }
+
+      const ticket = this.tickets.find((i) => {
+        return i.user_id === this.user.id && i.coupon_id === coupon.id && i.partner_id === this.partnerId
+      })
+
+      if (ticket) {
+        this.$refs.toast.show({
+          title: '已领取过',
+          type: 'error',
+          duration: 1000
+        })
+        return
+      }
+
       ticketApi
         .store({
           user_id: this.user.id,
           coupon_id: coupon.id,
           partner_id: this.partnerId
         })
-        .then((res) => {
+        .then(() => {
+          this.loadTickets()
           this.$refs.toast.show({
             title: '领取成功',
-            type: 'success'
+            type: 'success',
+            duration: 980
           })
         })
         .catch((e) => {

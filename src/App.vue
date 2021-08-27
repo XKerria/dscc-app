@@ -4,11 +4,13 @@ import { mapActions } from 'vuex'
 export default {
   onLaunch: function() {
     this.init()
-    this.loadUser()
+    this.loadUser().then(() => {
+      this.loadTickets()
+    })
   },
   methods: {
     ...mapActions('glob', ['init']),
-    ...mapActions('auth', ['loadUser'])
+    ...mapActions('auth', ['loadUser', 'loadTickets'])
   }
 }
 </script>
