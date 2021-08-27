@@ -2,19 +2,21 @@ import bannerApi from '@/api/banner'
 import settingApi from '@/api/setting'
 import categoryApi from '@/api/category'
 import carApi from '@/api/car'
+import couponApi from '@/api/coupon'
 
 const state = () => ({
   banners: [],
   settings: [],
   categories: [],
   cars: [],
-  services: []
+  services: [],
+  coupons: []
 })
 
 const getters = {
   guides: (state) => state.banners.filter((i) => i.type === 'guide'),
   banners: (state) => state.banners.filter((i) => i.type === 'banner'),
-  setting: (state) => (name) => state.settings.filter((i) => i.name === name)?.[0]?.value ?? null,
+  setting: (state) => (name) => state.settings.find((i) => i.name === name)?.value ?? null,
   category: (state) => (name) => state.categories.filter((i) => i.name === name)?.[0]?.value ?? null
 }
 
@@ -30,6 +32,9 @@ const mutations = {
   },
   set_services(state, payload) {
     state.services = payload
+  },
+  set_coupons(state, payload) {
+    state.coupons = payload
   },
   set_cars(state, payload) {
     state.cars = payload
@@ -57,6 +62,11 @@ const actions = {
       commit('set_services', services)
     })
   },
+  loadCoupons({ commit }) {
+    couponApi.index().then((data) => {
+      commit('set_coupons', data)
+    })
+  },
   loadCars({ commit }) {
     carApi.index().then((data) => {
       commit('set_cars', data)
@@ -67,6 +77,7 @@ const actions = {
     dispatch('loadSettings')
     dispatch('loadCategories')
     dispatch('loadCars')
+    dispatch('loadCoupons')
   }
 }
 

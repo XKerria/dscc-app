@@ -1,5 +1,5 @@
 <template>
-  <view class="action">
+  <view class="action" @click="$emit('click')">
     <view class="icon">
       <image class="image" :src="`/static/images/icon-${icon}.png`" mode="aspectFit" />
     </view>

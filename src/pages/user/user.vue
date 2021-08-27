@@ -19,9 +19,8 @@
         </view>
       </view>
 
-      <u-gap height="40" />
-
-      <view class="panel panel-points">
+      <u-gap height="40" v-if="user.points" />
+      <view class="panel panel-points" v-if="user.points">
         <view class="panel-points-title">会员积分</view>
         <text class="panel-points-points">{{ user.points }}</text>
       </view>
@@ -30,7 +29,7 @@
 
       <view class="panel panel-actions">
         <action icon="member">会员中心</action>
-        <action icon="user">我的信息</action>
+        <action icon="user" @click="onInfoClick">我的信息</action>
         <action icon="coupon">我的券包</action>
         <action icon="clock">我的预约</action>
         <action icon="service" :border-bottom="false">联系客服</action>
@@ -48,7 +47,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapActions, mapState } from 'vuex'
 import Action from './components/action.vue'
 import ContactCard from '@/components/common/contact-card.vue'
 
@@ -57,6 +56,18 @@ export default {
   components: { Action, ContactCard },
   computed: {
     ...mapState('auth', ['user'])
+  },
+  methods: {
+    ...mapActions('auth', ['updateUser']),
+    onInfoClick() {
+      if (this.user.nickname) {
+        uni.navigateTo({ url: '/pages/info/info' })
+        return
+      }
+      this.updateUser().then(() => {
+        uni.navigateTo({ url: '/pages/info/info' })
+      })
+    }
   }
 }
 </script>

@@ -42,11 +42,11 @@ export default {
   },
   data() {
     return {
-      active: 'home'
+      active: ''
     }
   },
   created() {
-    this.active = map?.[currentUrl()] ?? 'home'
+    this.active = map?.[currentUrl()]
   },
   methods: {
     onClick(page) {

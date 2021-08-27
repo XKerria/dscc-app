@@ -25,6 +25,17 @@
         "navigationBarBackgroundColor": "#fe6240",
         "navigationBarTextStyle": "white"
       }
+    },
+    {
+      "path": "pages/info/info",
+      "style": {
+        "navigationBarTitleText": "我的",
+        "navigationBarBackgroundColor": "#fe6240",
+        "navigationBarTextStyle": "white"
+      }
+    },
+    {
+      "path": "pages/coupons/coupons"
     }
   ],
   "globalStyle": {
