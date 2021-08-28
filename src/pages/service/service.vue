@@ -19,19 +19,9 @@
       <rich-text :nodes="nodes" />
     </view>
     <view class="footer">
-      <view class="left" @click="onCallClick">
-        <image class="icon" src="/static/images/icon-contact.png" />
-        <text class="text" v-if="name === '自驾'">订车专线</text>
-        <text class="text" v-else>联系客服</text>
-      </view>
-      <view class="right" @click="onAppClick" v-if="name === '自驾'">
-        <image class="icon" src="/static/images/icon-miniprogram.png" />
-        <text class="text">更多车型</text>
-      </view>
-      <view class="right" @click="onReserveClick" v-else>
-        <image class="icon" src="/static/images/icon-btn-reserve.png" />
-        <text class="text">点击预约</text>
-      </view>
+      <jump-to v-if="name === '自驾'" @jump="onJumpClick" @call="onCallClick" />
+      <no-reserve v-else-if="['车辆托管', '首付垫付', '征信代购'].includes(name)" @call="onCallClick" />
+      <service-footer v-else @reserve="onReserveClick" @call="onCallClick" />
     </view>
 
     <phone-bind ref="bind" @bind="onPhoneBind" />
@@ -42,14 +32,20 @@
 import { mapState } from 'vuex'
 import htmlUtils from '@/utils/html'
 import PhoneBind from '@/components/common/phone-bind'
+import ServiceFooter from './components/footer'
+import JumpTo from './components/jump-to'
+import NoReserve from './components/no-reserve'
 
 export default {
   name: 'service',
-  components: { PhoneBind },
+  components: { PhoneBind, ServiceFooter, JumpTo, NoReserve },
   computed: {
     ...mapState('auth', ['user']),
     service() {
       return this.$store.state.glob.services.find((i) => i.name === this.name)
+    },
+    jumpTo() {
+      return this.$store.getters['glob/setting']('关联小程序ID')
     },
     phone() {
       return this.$store.getters['glob/setting']('客服电话')
@@ -68,11 +64,14 @@ export default {
     this.name = params.name
   },
   methods: {
+    onMutedClick() {
+      this.muted = !this.muted
+    },
     onCallClick() {
       uni.makePhoneCall({ phoneNumber: this.phone })
     },
-    onAppClick() {
-      uni.navigateToMiniProgram({ appId: 'wxd3f015dca219b365' })
+    onJumpClick() {
+      uni.navigateToMiniProgram({ appId: this.jumpTo })
     },
     onBodyClick() {
       if (this.name !== '自驾') return
@@ -90,9 +89,6 @@ export default {
     },
     onPhoneBind() {
       uni.navigateTo({ url: `/pages/reserve/reserve?name=${this.name}` })
-    },
-    onMutedClick() {
-      this.muted = !this.muted
     }
   }
 }
@@ -138,57 +134,7 @@ export default {
   }
 
   .footer {
-    width: 100%;
-    display: flex;
-    align-items: center;
-    background-color: #3a4152;
-    color: #fff;
-    z-index: 0;
-    letter-spacing: 2rpx;
-    position: relative;
-    overflow: hidden;
-
-    .icon {
-      width: 40rpx;
-      height: 38rpx;
-    }
-
-    .text {
-      margin-left: 12rpx;
-    }
-
-    .left {
-      height: 100rpx;
-      width: 375rpx;
-      position: relative;
-      overflow: hidden;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      z-index: 2;
-    }
-
-    .right {
-      overflow: hidden;
-      flex: 1;
-      height: 100rpx;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      z-index: 2;
-    }
-  }
-
-  .footer::before {
-    content: '';
-    width: 375rpx;
-    height: 375rpx;
-    position: absolute;
-    left: 0rpx;
-    top: -137rpx;
-    border-radius: 0 50% 50% 0;
-    background-image: linear-gradient(45deg, #ff743c, #ff1c3d);
-    z-index: 1;
+    width: 100vw;
   }
 }
 </style>
