@@ -46,7 +46,8 @@
           />
         </u-form-item>
         <u-form-item label="预约时长" prop="duration">
-          <u-input v-model="model.duration" placeholder="请输入" type="number" />
+          <!-- <u-input v-model.number="model.duration" placeholder="请输入" type="number" /> -->
+          <u-number-box v-model="model.duration" />
           <template v-slot:right>
             <text>天</text>
           </template>
@@ -60,11 +61,20 @@
         <u-form-item label="备注" prop="remark">
           <u-input v-model="model.remark" type="textarea" height="60" placeholder="备注" maxlength="255" auto-height />
         </u-form-item>
-        <u-form-item label="优惠券" prop="remark" :border-bottom="false" right-icon="arrow-right">
-          <text class="number">500元现金抵扣券</text>
+        <u-form-item label="优惠券" prop="remark" :border-bottom="false">
+          <u-input
+            v-model="model.ticket"
+            placeholder="请选择"
+            type="select"
+            @click="onTicketClick"
+            :select-open="showTickets"
+          />
+          <u-select :list="tickets" v-model="showTickets" confirm-color="#ff1c3d" @confirm="onTicketSelect" />
         </u-form-item>
       </u-form>
     </view>
+
+    <u-toast ref="toast" />
   </view>
 </template>
 
@@ -92,11 +102,12 @@ const rules = {
   time: [{ required: true, message: '必选' }],
   duration: [
     { required: true, message: '必填' },
-    { type: 'number', message: '数字' },
-    { min: 0, max: 365, message: '0 ~ 365' }
+    { type: 'integer', min: 1, max: 365, message: '整数 1 ~ 365' }
   ],
   remark: [{ min: 0, max: 255, message: '长度为 0 ~ 255 字符' }]
 }
+
+const units = { 代金券: '￥' }
 
 export default {
   name: 'form',
@@ -105,9 +116,17 @@ export default {
     vehicles() {
       return this.$store.state.glob.vehicles.map((i) => ({ ...i, label: i.name, value: i.name, extra: i.id }))
     },
+    tickets() {
+      return this.$store.state.auth.tickets.map((i) => ({
+        ...i,
+        label: `${units[i.coupon.type]}${i.coupon.value} ${i.coupon.type}（${i.partner.name}）`,
+        value: i.id,
+        extra: i.id
+      }))
+    },
     total() {
       if (!this.vehicle) return 0
-      return Number(this.vehicle.day_price) * Number(this.model.duration) || 0
+      return Math.round(Number(this.vehicle.day_price) * Number(this.model.duration)) || 0
     }
   },
   data() {
@@ -115,13 +134,16 @@ export default {
       params,
       showVehicles: false,
       showTime: false,
+      showTickets: false,
       vehicle: null,
+      ticket: null,
       model: {
         name: '',
         phone: '',
         vehicle: '',
+        ticket: '',
         time: '',
-        duration: '',
+        duration: 3,
         remark: ''
       }
     }
@@ -147,6 +169,17 @@ export default {
     },
     onTimeSelect({ year, month, day, hour, minute }) {
       this.model.time = `${year}-${month}-${day} ${hour}:${minute}`
+    },
+    onTicketClick() {
+      if (!this.tickets.length) {
+        this.$refs.toast.show({ title: '对不起，您暂时没有优惠券', type: 'warning' })
+        return
+      }
+      this.showTickets = true
+    },
+    onTicketSelect([obj]) {
+      this.model.ticket = obj.label
+      this.ticket = this.tickets.find((i) => i.id === obj.extra)
     }
   }
 }

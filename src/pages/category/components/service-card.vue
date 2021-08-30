@@ -28,13 +28,12 @@ export default {
 
 <style lang="scss" scoped>
 .card {
-  height: 140rpx;
   border-radius: 10rpx;
   box-shadow: 0 0 30rpx 0 rgba(0, 0, 0, 0.1);
   background-color: #fff;
   display: flex;
   align-items: center;
-  padding: 0 30rpx;
+  padding: 26rpx 30rpx;
 
   .icon {
     margin-left: 20rpx;
