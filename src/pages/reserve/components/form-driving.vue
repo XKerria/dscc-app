@@ -1,12 +1,12 @@
 <template>
   <view class="form-driving">
-    <view v-if="car" class="car">
-      <image class="image" :src="car.image" mode="aspectFill" />
+    <view v-if="vehicle" class="vehicle">
+      <image class="image" :src="vehicle.image_url" mode="aspectFill" />
       <view class="logo-wrapper">
-        <image class="logo" :src="car.logo" mode="aspectFit" />
+        <image class="logo" :src="vehicle.logo_url" mode="aspectFit" />
       </view>
-      <view class="rent">
-        <text class="number" space="nbsp">￥{{ car.rent }}</text>
+      <view class="price">
+        <text class="number" space="nbsp">￥{{ vehicle.day_price }}</text>
         <text space="nbsp"> / 天</text>
       </view>
     </view>
@@ -18,15 +18,15 @@
         <u-form-item label="您的电话" prop="phone">
           <u-input v-model="model.phone" placeholder="请输入" maxlength="11" type="number" />
         </u-form-item>
-        <u-form-item label="使用车型" prop="car">
+        <u-form-item label="使用车型" prop="vehicle">
           <u-input
-            v-model="model.car"
+            v-model="model.vehicle"
             placeholder="请输入"
             type="select"
-            @click="showCars = true"
-            :select-open="showCars"
+            @click="showVehicles = true"
+            :select-open="showVehicles"
           />
-          <u-select :list="cars" v-model="showCars" confirm-color="#ff1c3d" @confirm="onCarSelect" />
+          <u-select :list="vehicles" v-model="showVehicles" confirm-color="#ff1c3d" @confirm="onVehicleSelect" />
         </u-form-item>
         <u-form-item label="预约时间" prop="time">
           <u-input
@@ -51,8 +51,8 @@
             <text>天</text>
           </template>
         </u-form-item>
-        <u-form-item label="单价" v-if="car">
-          <text class="number placeholder">￥{{ car.rent }}</text>
+        <u-form-item label="单价" v-if="vehicle">
+          <text class="number placeholder">￥{{ vehicle.day_price }}</text>
         </u-form-item>
         <u-form-item label="总价">
           <text class="number">￥{{ total }}</text>
@@ -88,7 +88,7 @@ const rules = {
     { required: true, message: '必填' },
     { pattern: /^1[3-9][0-9]{9}$/, message: '手机号格式错误' }
   ],
-  car: [{ required: true, message: '必选' }],
+  vehicle: [{ required: true, message: '必选' }],
   time: [{ required: true, message: '必选' }],
   duration: [
     { required: true, message: '必填' },
@@ -102,24 +102,24 @@ export default {
   name: 'form',
   computed: {
     ...mapState('auth', ['user']),
-    cars() {
-      return this.$store.state.glob.cars.map((i) => ({ ...i, label: i.name, value: i.name, extra: i.id }))
+    vehicles() {
+      return this.$store.state.glob.vehicles.map((i) => ({ ...i, label: i.name, value: i.name, extra: i.id }))
     },
     total() {
-      if (!this.car) return 0
-      return Number(this.car.rent) * Number(this.model.duration) || 0
+      if (!this.vehicle) return 0
+      return Number(this.vehicle.day_price) * Number(this.model.duration) || 0
     }
   },
   data() {
     return {
       params,
-      showCars: false,
+      showVehicles: false,
       showTime: false,
-      car: null,
+      vehicle: null,
       model: {
         name: '',
         phone: '',
-        car: '',
+        vehicle: '',
         time: '',
         duration: '',
         remark: ''
@@ -135,13 +135,15 @@ export default {
     validate() {
       return new Promise((resolve) => {
         this.$refs.form.validate((valid) => {
-          if (valid) resolve(this.model)
+          if (valid) {
+            resolve({ ...this.model, duration: this.model.duration + '天' })
+          }
         })
       })
     },
-    onCarSelect([obj]) {
-      this.model.car = obj.label
-      this.car = this.cars.find((i) => i.id === obj.extra)
+    onVehicleSelect([obj]) {
+      this.model.vehicle = obj.label
+      this.vehicle = this.vehicles.find((i) => i.id === obj.extra)
     },
     onTimeSelect({ year, month, day, hour, minute }) {
       this.model.time = `${year}-${month}-${day} ${hour}:${minute}`
@@ -155,7 +157,7 @@ export default {
   margin: 50rpx 0;
 }
 
-.car {
+.vehicle {
   box-sizing: border-box;
   padding: 20rpx 30rpx;
 
@@ -185,7 +187,7 @@ export default {
       height: 100%;
     }
   }
-  .rent {
+  .price {
     margin-left: 20rpx;
     font-size: 24rpx;
     display: flex;
