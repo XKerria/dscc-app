@@ -2,6 +2,8 @@ import userApi from '@/api/user'
 import ticketApi from '@/api/ticket'
 import dayjs from 'dayjs'
 
+const units = { 代金券: '￥' }
+
 const state = () => ({
   user: null,
   tickets: []
@@ -26,8 +28,13 @@ const actions = {
             with: 'partner|coupon'
           })
           .then((res) => {
-            commit('set_tickets', res)
-            resolve(res)
+            const tickets = res.map((i) => ({
+              ...i,
+              label: `${units[i.coupon.type]}${i.coupon.value} ${i.coupon.type}（${i.partner.name}）`,
+              value: i.id
+            }))
+            commit('set_tickets', tickets)
+            resolve(tickets)
           })
           .catch((e) => reject(e))
       } else {

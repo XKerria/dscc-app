@@ -10,6 +10,7 @@
         <text space="nbsp"> / 天</text>
       </view>
     </view>
+
     <view class="form">
       <u-form :model="model" ref="form" label-width="180">
         <u-form-item label="您的称呼" prop="name">
@@ -46,7 +47,6 @@
           />
         </u-form-item>
         <u-form-item label="预约时长" prop="duration">
-          <!-- <u-input v-model.number="model.duration" placeholder="请输入" type="number" /> -->
           <u-number-box v-model="model.duration" />
           <template v-slot:right>
             <text>天</text>
@@ -104,7 +104,8 @@ const rules = {
     { required: true, message: '必填' },
     { type: 'integer', min: 1, max: 365, message: '整数 1 ~ 365' }
   ],
-  remark: [{ min: 0, max: 255, message: '长度为 0 ~ 255 字符' }]
+  remark: [{ min: 0, max: 255, message: '长度为 0 ~ 255 字符' }],
+  ticket: []
 }
 
 const units = { 代金券: '￥' }
@@ -112,18 +113,8 @@ const units = { 代金券: '￥' }
 export default {
   name: 'form',
   computed: {
-    ...mapState('auth', ['user']),
-    vehicles() {
-      return this.$store.state.glob.vehicles.map((i) => ({ ...i, label: i.name, value: i.name, extra: i.id }))
-    },
-    tickets() {
-      return this.$store.state.auth.tickets.map((i) => ({
-        ...i,
-        label: `${units[i.coupon.type]}${i.coupon.value} ${i.coupon.type}（${i.partner.name}）`,
-        value: i.id,
-        extra: i.id
-      }))
-    },
+    ...mapState('auth', ['user', 'tickets']),
+    ...mapState('glob', ['vehicles']),
     total() {
       if (!this.vehicle) return 0
       return Math.round(Number(this.vehicle.day_price) * Number(this.model.duration)) || 0
@@ -142,6 +133,7 @@ export default {
         phone: '',
         vehicle: '',
         ticket: '',
+        ticket_id: '',
         time: '',
         duration: 3,
         remark: ''
@@ -179,7 +171,8 @@ export default {
     },
     onTicketSelect([obj]) {
       this.model.ticket = obj.label
-      this.ticket = this.tickets.find((i) => i.id === obj.extra)
+      this.model.ticket_id = obj.value
+      this.ticket = this.tickets.find((i) => i.id === obj.value)
     }
   }
 }
@@ -187,54 +180,48 @@ export default {
 
 <style lang="scss" scoped>
 .form-driving {
-  margin: 50rpx 0;
-}
-
-.vehicle {
-  box-sizing: border-box;
-  padding: 20rpx 30rpx;
-
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-
-  box-shadow: 0 0 30rpx rgba(0, 0, 0, 0.1);
-  border-radius: 10rpx;
-
-  margin: 50rpx 0;
-  background-color: #fff;
-
-  .image {
-    width: 230rpx;
-    height: 100rpx;
-  }
-  .logo-wrapper {
+  .vehicle {
     box-sizing: border-box;
-    width: 100rpx;
-    height: 100rpx;
-    border-radius: 50%;
-    padding: 15rpx;
-    box-shadow: 0 0 19rpx 0 rgba(0, 0, 0, 0.1);
-    .logo {
-      width: 100%;
-      height: 100%;
-    }
-  }
-  .price {
-    margin-left: 20rpx;
-    font-size: 24rpx;
+
     display: flex;
     align-items: center;
-    font-size: 24rpx;
-    color: var(--color-text);
-  }
-}
+    justify-content: space-between;
 
-.form {
-  background-color: #fff;
-  border-radius: 10rpx;
-  padding: 0 30rpx;
-  box-shadow: 0 0 30rpx rgba(0, 0, 0, 0.1);
+    padding: 20rpx 0;
+    background-color: #fff;
+    border-bottom: 1rpx solid #ddd;
+
+    .image {
+      width: 230rpx;
+      height: 100rpx;
+    }
+
+    .logo-wrapper {
+      box-sizing: border-box;
+      width: 100rpx;
+      height: 100rpx;
+      border-radius: 50%;
+      padding: 15rpx;
+      box-shadow: 0 0 19rpx 0 rgba(0, 0, 0, 0.1);
+
+      .logo {
+        width: 100%;
+        height: 100%;
+      }
+    }
+    .price {
+      margin-left: 20rpx;
+      font-size: 24rpx;
+      display: flex;
+      align-items: center;
+      font-size: 24rpx;
+      color: var(--color-text);
+    }
+  }
+
+  .form {
+    border-radius: 10rpx;
+  }
 }
 
 .number {

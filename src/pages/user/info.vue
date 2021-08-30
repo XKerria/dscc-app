@@ -49,9 +49,6 @@ export default {
   computed: {
     ...mapState('auth', ['user'])
   },
-  onLoad() {
-    console.log('pages/user/info')
-  },
   methods: {
     ...mapActions('auth', ['updateUser']),
     onRefreshClick() {

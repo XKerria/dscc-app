@@ -41,7 +41,7 @@ export default {
       this.current = e.detail.current
     },
     onClick() {
-      if (!this.user.id) {
+      if (!this.user.id || !this.user.nickname) {
         this.updateUser().then(() => {
           uni.redirectTo({ url: '/pages/index/index' })
         })

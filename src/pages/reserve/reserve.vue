@@ -1,8 +1,18 @@
 <template>
   <view class="reserve">
-    <view class="form">
-      <form-driving ref="form" v-if="name === '自驾'" />
-      <form-pickup ref="form" v-if="name === '接送'" />
+    <view class="main">
+      <view class="service" v-if="service.name !== '自驾'">
+        <image class="service-icon" :src="service.icon_url" mode="aspectFit" />
+        <view class="service-text">
+          <view class="service-text-name">{{ service.name }}</view>
+          <view class="service-text-intro">{{ service.intro }}</view>
+        </view>
+      </view>
+
+      <view class="form">
+        <form-driving ref="form" v-if="name === '自驾'" />
+        <form-pickup ref="form" v-if="name === '接送'" />
+      </view>
     </view>
 
     <view class="footer">
@@ -28,6 +38,7 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex'
 import reserveApi from '@/api/reserve'
 import FormDriving from './components/form-driving.vue'
 import FormPickup from './components/form-pickup.vue'
@@ -57,12 +68,14 @@ export default {
     uni.setNavigationBarTitle({ title: params.name })
   },
   methods: {
+    ...mapActions('auth', ['loadTickets']),
     onPhoneClick() {
       uni.makePhoneCall({ phoneNumber: this.phone })
     },
     onSubmitClick() {
       this.$refs.form.validate().then((values) => {
-        reserveApi.store({ ...values, service_id: this.service.id }, { type: this.service.name }).then(() => {
+        reserveApi.store({ ...values, service_id: this.service.id }, { type: this.service.name }).then((reserve) => {
+          if (reserve.ticket_id) this.loadTickets()
           this.show = true
         })
       })
@@ -81,12 +94,50 @@ export default {
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  background-color: #f7f7f7;
 
-  .form {
+  .main {
     flex: 1;
-    padding: 0 30rpx;
     overflow-y: auto;
+    padding: 30rpx;
+
+    .service {
+      padding: 26rpx 0;
+      margin-bottom: 30rpx;
+      display: flex;
+      align-items: center;
+      background-color: #fff;
+      box-shadow: 0 0 30rpx 0 rgba(0, 0, 0, 0.1);
+      border-radius: 10rpx;
+
+      &-icon {
+        height: 50rpx;
+        width: 50rpx;
+        margin: 0 50rpx;
+      }
+
+      &-text {
+        flex: 1;
+        padding-right: 50rpx;
+
+        &-name {
+          font-size: 32rpx;
+        }
+        &-intro {
+          margin-top: 10rpx;
+          font-size: 24rpx;
+          color: #666;
+        }
+      }
+    }
+
+    .form {
+      flex: 1;
+      padding: 0 30rpx;
+      overflow-y: auto;
+      background-color: #fff;
+      border-radius: 10rpx;
+      box-shadow: 0 0 30rpx 0 rgba(0, 0, 0, 0.1);
+    }
   }
 
   .footer {
@@ -130,6 +181,7 @@ export default {
       z-index: 2;
     }
   }
+
   .footer::before {
     content: '';
     width: 375rpx;

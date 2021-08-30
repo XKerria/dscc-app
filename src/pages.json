@@ -16,7 +16,11 @@
       "path": "pages/service/service"
     },
     {
-      "path": "pages/reserve/reserve"
+      "path": "pages/reserve/reserve",
+      "style": {
+        "backgroundColor": "#ffffff",
+        "navigationBarBackgroundColor": "#ffffff"
+      }
     },
     {
       "path": "pages/user/user",

@@ -3,6 +3,7 @@ import settingApi from '@/api/setting'
 import categoryApi from '@/api/category'
 import vehicleApi from '@/api/vehicle'
 import couponApi from '@/api/coupon'
+import staffApi from '@/api/staff'
 
 const state = () => ({
   banners: [],
@@ -10,7 +11,8 @@ const state = () => ({
   categories: [],
   vehicles: [],
   services: [],
-  coupons: []
+  coupons: [],
+  staffs: []
 })
 
 const getters = {
@@ -38,6 +40,9 @@ const mutations = {
   },
   set_vehicles(state, payload) {
     state.vehicles = payload
+  },
+  set_staffs(state, payload) {
+    state.staffs = payload
   }
 }
 
@@ -69,15 +74,23 @@ const actions = {
   },
   loadVehicles({ commit }) {
     vehicleApi.index().then((data) => {
-      commit('set_vehicles', data)
+      const vehicles = data.map((i) => ({ ...i, label: i.name, value: i.name, extra: i.id }))
+      commit('set_vehicles', vehicles)
+    })
+  },
+  loadStaffs({ commit }) {
+    staffApi.index().then((data) => {
+      const staffs = [{ name: '公司指定', id: '' }, ...data]
+      commit('set_staffs', staffs)
     })
   },
   init({ dispatch }) {
     dispatch('loadBanners')
     dispatch('loadSettings')
     dispatch('loadCategories')
-    dispatch('loadVehicles')
     dispatch('loadCoupons')
+    dispatch('loadVehicles')
+    dispatch('loadStaffs')
   }
 }
 

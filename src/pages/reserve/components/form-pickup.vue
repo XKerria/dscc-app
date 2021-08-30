@@ -1,59 +1,112 @@
 <template>
-  <view class="form-cars">
-    <u-form :model="model" ref="form" label-width="180">
-      <u-form-item label="您的称呼" prop="name">
-        <u-input v-model="model.name" placeholder="请输入" maxlength="32" clearable />
-      </u-form-item>
-      <u-form-item label="您的电话" prop="phone">
-        <u-input v-model="model.phone" placeholder="请输入" maxlength="11" type="number" />
-      </u-form-item>
-      <u-form-item label="使用车型" prop="car">
+  <u-form :model="model" ref="form" label-width="180">
+    <u-form-item label="您的称呼" prop="name">
+      <u-input v-model="model.name" placeholder="请输入" maxlength="32" clearable />
+    </u-form-item>
+    <u-form-item label="您的电话" prop="phone">
+      <u-input v-model="model.phone" placeholder="请输入" maxlength="11" type="number" />
+    </u-form-item>
+    <u-form-item label="您的司机" prop="staff">
+      <view class="staff">
+        <image v-if="staff && staff.avatar_url" class="avatar" :src="staff.avatar_url" mode="aspectFill" />
         <u-input
-          v-model="model.car"
+          class="input"
+          v-model="model.staff"
           placeholder="请输入"
           type="select"
-          @click="showCars = true"
-          :select-open="showCars"
+          @click="showStaffs = true"
+          :select-open="showStaffs"
         />
-        <u-select :list="cars" v-model="showCars" confirm-color="#ff1c3d" @confirm="onCarSelect" />
-      </u-form-item>
-      <u-form-item label="预约时间" prop="time">
-        <u-input
-          v-model="model.time"
-          placeholder="请输入"
-          type="select"
-          @click="showTime = true"
-          :select-open="showTime"
-        />
-        <u-picker
-          v-model="showTime"
-          mode="time"
-          confirm-color="#ff1c3d"
-          placeholder="请选择"
-          :params="params"
-          @confirm="onTimeSelect"
-        />
-      </u-form-item>
-      <u-form-item label="预约时长" prop="duration">
-        <u-input v-model="model.duration" placeholder="请输入" type="number" />
-        <template v-slot:right>
-          <text>天</text>
-        </template>
-      </u-form-item>
-      <u-form-item label="单价" v-if="car">
-        <text class="number placeholder">￥{{ car.rent }}</text>
-      </u-form-item>
-      <u-form-item label="总价">
-        <text class="number">￥{{ total }}</text>
-      </u-form-item>
-      <u-form-item label="备注" prop="remark" :border-bottom="false">
-        <u-input v-model="model.remark" type="textarea" height="60" placeholder="备注" maxlength="255" auto-height />
-      </u-form-item>
-    </u-form>
-  </view>
+      </view>
+      <u-select
+        v-model="showStaffs"
+        confirm-color="#ff1c3d"
+        label-name="name"
+        value-name="id"
+        :list="staffs"
+        @confirm="onStaffSelect"
+      />
+    </u-form-item>
+    <u-form-item label="使用车型" prop="vehicle">
+      <u-input
+        v-model="model.vehicle"
+        placeholder="请选择"
+        type="select"
+        @click="showVehicles = true"
+        :select-open="showVehicles"
+      />
+      <u-select
+        v-model="showVehicles"
+        confirm-color="#ff1c3d"
+        label-name="name"
+        value-name="id"
+        :list="vehicles"
+        @confirm="onVehicleSelect"
+      />
+    </u-form-item>
+    <u-form-item label="预约时间" prop="time">
+      <u-input
+        v-model="model.time"
+        placeholder="请选择"
+        type="select"
+        @click="showTime = true"
+        :select-open="showTime"
+      />
+      <u-picker
+        v-model="showTime"
+        mode="time"
+        confirm-color="#ff1c3d"
+        placeholder="请选择"
+        :params="params"
+        @confirm="onTimeSelect"
+      />
+    </u-form-item>
+    <u-form-item label="服务起点" prop="from">
+      <u-input :value="model.from.name" placeholder="请选择" type="select" @click="onFromClick" />
+    </u-form-item>
+    <u-form-item label="服务终点" prop="to">
+      <u-input v-model="model.to.name" placeholder="请选择" type="select" @click="onToClick" />
+    </u-form-item>
+    <u-form-item label="服务时长" prop="duration">
+      <text class="number">{{ model.duration }}</text>
+      <template v-slot:right>
+        <text class="placeholder">分钟</text>
+      </template>
+    </u-form-item>
+    <u-form-item label="服务里程" prop="distance">
+      <text class="number">{{ model.distance }}</text>
+      <template v-slot:right>
+        <text class="number placeholder">KM</text>
+      </template>
+    </u-form-item>
+    <u-form-item label="总价" prop="total">
+      <text class="number">{{ model.total }}</text>
+      <template v-slot:right>
+        <text class="number placeholder">￥</text>
+      </template>
+    </u-form-item>
+    <u-form-item label="备注" prop="remark" :border-bottom="false">
+      <u-input v-model="model.remark" type="textarea" height="60" placeholder="备注" maxlength="255" auto-height />
+    </u-form-item>
+    <u-form-item label="优惠券" prop="ticket" :border-bottom="false">
+      <u-input
+        v-model="model.ticket"
+        placeholder="请选择"
+        type="select"
+        @click="onTicketClick"
+        :select-open="showTickets"
+      />
+      <u-select :list="tickets" v-model="showTickets" confirm-color="#ff1c3d" @confirm="onTicketSelect" />
+    </u-form-item>
+
+    <u-toast ref="toast" />
+  </u-form>
 </template>
 
 <script>
+import { mapState } from 'vuex'
+import mapUtils from '@/utils/map'
+
 const params = {
   year: true,
   month: true,
@@ -71,75 +124,161 @@ const rules = {
     { required: true, message: '必填' },
     { pattern: /^1[3-9][0-9]{9}$/, message: '手机号格式错误' }
   ],
-  car: [{ required: true, message: '必选' }],
+  vehicle: [{ required: true, message: '必选' }],
   time: [{ required: true, message: '必选' }],
-  duration: [
-    { required: true, message: '必填' },
-    { type: 'number', message: '数字' },
-    { min: 0, max: 365, message: '0 ~ 365' }
-  ],
-  remark: [{ min: 0, max: 255, message: '长度为 0 ~ 255 字符' }]
+  from: [{ required: true, message: '必选' }],
+  to: [{ required: true, message: '必选' }],
+  duration: [{ required: true, message: '必填' }],
+  distance: [{ required: true, message: '必填' }],
+  remark: [{ min: 0, max: 255, message: '长度为 0 ~ 255 字符' }],
+  staff_id: [{ required: true, message: '必选' }],
+  ticket: []
 }
 
 export default {
   name: 'form',
   computed: {
-    cars() {
-      return this.$store.state.glob.cars.map((i) => ({ ...i, label: i.name, value: i.name, extra: i.id }))
-    },
+    ...mapState('auth', ['user', 'tickets']),
+    ...mapState('glob', ['staffs', 'vehicles']),
     total() {
-      if (!this.car) return 0
-      return Number(this.car.rent) * Number(this.model.duration) || 0
+      const { distance } = this.model
+      return { distance, price: this.vehicle?.km_price ?? null }
+    },
+    fromto() {
+      const { from, to } = this.model
+      return { from, to }
     }
   },
   data() {
     return {
       params,
-      showCars: false,
+      showStaffs: false,
+      showVehicles: false,
       showTime: false,
-      car: null,
+      showTickets: false,
+      vehicle: null,
+      staff: null,
       model: {
         name: '',
         phone: '',
-        car: '',
+        staff_id: '',
+        vehicle: '',
         time: '',
-        duration: '',
-        remark: ''
+        from: null,
+        to: null,
+        duration: 0,
+        distance: 0,
+        total: 0,
+        remark: '',
+        ticket_id: ''
+      }
+    }
+  },
+  watch: {
+    fromto: {
+      deep: true,
+      handler({ from, to }) {
+        if (!from || !to) return
+        mapUtils
+          .calculateDistance({
+            mode: 'driving',
+            from,
+            to: [to]
+          })
+          .then((res) => {
+            const { distance, duration } = res
+            this.model.duration = Math.round(duration / 60)
+            this.model.distance = Math.round((distance / 1000) * 100) / 100
+          })
+      }
+    },
+    total: {
+      deep: true,
+      handler({ distance, price }) {
+        if (!distance || !price) return
+        this.model.total = Math.round(distance * price)
       }
     }
   },
   onReady() {
     this.$refs.form.setRules(rules)
+    if (this.user.phone) this.model.phone = this.user.phone
+    if (this.user.nickname) this.model.name = this.user.nickname
   },
   methods: {
     validate() {
       return new Promise((resolve) => {
         this.$refs.form.validate((valid) => {
-          if (valid) resolve(this.model)
+          if (valid) {
+            const data = {
+              ...this.model,
+              duration: this.model.duration + '分钟',
+              distance: this.model.distance + '公里'
+            }
+            resolve(data)
+          }
         })
       })
     },
-    onCarSelect([obj]) {
-      this.model.car = obj.label
-      this.car = this.cars.find((i) => i.id === obj.extra)
+    onVehicleSelect([obj]) {
+      this.model.vehicle = obj.label
+      this.vehicle = this.vehicles.find((i) => i.id === obj.value)
+    },
+    onStaffSelect([obj]) {
+      this.model.staff = obj.label
+      this.model.staff_id = obj.value
+      this.staff = this.staffs.find((i) => i.id === obj.value)
     },
     onTimeSelect({ year, month, day, hour, minute }) {
       this.model.time = `${year}-${month}-${day} ${hour}:${minute}`
+    },
+    onFromClick() {
+      const thiz = this
+      uni.chooseLocation({
+        success(res) {
+          thiz.model.from = res
+        }
+      })
+    },
+    onToClick() {
+      const thiz = this
+      uni.chooseLocation({
+        success(res) {
+          thiz.model.to = res
+        }
+      })
+    },
+    onTicketClick() {
+      if (!this.tickets.length) {
+        this.$refs.toast.show({ title: '对不起，您暂时没有优惠券', type: 'warning' })
+        return
+      }
+      this.showTickets = true
+    },
+    onTicketSelect([obj]) {
+      this.model.ticket = obj.label
+      this.model.ticket_id = obj.value
+      this.ticket = this.tickets.find((i) => i.id === obj.value)
     }
   }
 }
 </script>
 
 <style lang="scss" scoped>
-.form-cars {
-  margin: 50rpx 0;
-}
+.staff {
+  display: flex;
+  align-items: center;
 
-.form {
-  background-color: #fff;
-  border-radius: 10rpx;
-  padding: 0 30rpx;
-  box-shadow: 0 0 30rpx rgba(0, 0, 0, 0.1);
+  .avatar {
+    height: 80rpx;
+    width: 80rpx;
+    border-radius: 50%;
+    margin-right: 16rpx;
+  }
+
+  .input {
+    flex: 1;
+  }
 }
 
 .number {
