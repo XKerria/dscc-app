@@ -1,5 +1,6 @@
 <template>
   <view class="page wallet">
+    <view class="empty" v-if="!tickets.length">您还没有领取任何优惠券</view>
     <block v-for="item of tickets" :key="item.id">
       <view class="coupon" :style="{ backgroundImage: `url(${bg})` }">
         <view class="left">
@@ -40,6 +41,15 @@ export default {
 <style lang="scss" scoped>
 .wallet {
   padding: 30rpx;
+
+  .empty {
+    width: 100%;
+    text-align: center;
+    padding: 50rpx;
+    font-size: 28rpx;
+    color: #999;
+    letter-spacing: 2rpx;
+  }
 
   .coupon {
     width: 100%;

@@ -1,7 +1,11 @@
 <template>
   <view class="action" @click="$emit('click')">
     <view class="icon">
-      <image class="image" :src="`/static/images/icon-${icon}.png`" mode="aspectFit" />
+      <image
+        class="image"
+        :src="`https://project-dscc.oss-cn-chengdu.aliyuncs.com/static/images/icon-${icon}.png`"
+        mode="aspectFit"
+      />
     </view>
     <view class="text" :style="{ borderBottom: borderBottom ? '1rpx solid #eee' : 'none' }">
       <slot></slot>

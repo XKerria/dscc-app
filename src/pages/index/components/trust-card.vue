@@ -1,6 +1,10 @@
 <template>
   <view class="card" @click="onClick">
-    <image class="icon" src="/static/images/icon-trust.png" mode="aspectFit" />
+    <image
+      class="icon"
+      src="https://project-dscc.oss-cn-chengdu.aliyuncs.com/static/images/icon-trust.png"
+      mode="aspectFit"
+    />
     <view class="wrapper">
       <view class="title">托管服务</view>
       <view class="services">
@@ -34,7 +38,7 @@ export default {
   height: 320rpx;
 
   background-color: #fff;
-  background-image: url('/static/images/bg-trust.png');
+  background-image: url('https://project-dscc.oss-cn-chengdu.aliyuncs.com/static/images/bg-trust.png');
   background-repeat: no-repeat;
   background-size: 349rpx 266rpx;
   background-position: bottom right;

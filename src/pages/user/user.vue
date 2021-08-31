@@ -154,7 +154,7 @@ export default {
       background-repeat: no-repeat;
       background-position: bottom right;
       background-size: auto 112rpx;
-      background-image: url('/static/images/bg-member.png');
+      background-image: url('https://project-dscc.oss-cn-chengdu.aliyuncs.com/static/images/bg-member.png');
 
       &-title {
         position: absolute;

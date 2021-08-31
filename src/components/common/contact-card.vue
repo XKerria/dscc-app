@@ -35,7 +35,7 @@ export default {
   height: 300rpx;
 
   background-color: #fff;
-  background-image: url('/static/images/bg-contact.png');
+  background-image: url('https://project-dscc.oss-cn-chengdu.aliyuncs.com/static/images/bg-contact.png');
   background-size: 630rpx 223rpx;
   background-repeat: no-repeat;
   background-position: center;
@@ -114,5 +114,6 @@ export default {
   font-size: 32rpx;
   letter-spacing: 2rpx;
   line-height: 50rpx;
+  font-weight: bold;
 }
 </style>

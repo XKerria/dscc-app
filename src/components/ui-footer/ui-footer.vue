@@ -2,20 +2,36 @@
   <view class="ui-footer">
     <view class="wrapper">
       <view v-if="active === 'home'" class="button active">
-        <image class="icon" src="/static/images/icon-home.png" mode="aspectFit" />
+        <image
+          class="icon"
+          src="https://project-dscc.oss-cn-chengdu.aliyuncs.com/static/images/icon-home.png"
+          mode="aspectFit"
+        />
         <view class="text">首页</view>
       </view>
       <view v-else class="button" @click="onClick('/pages/index/index')">
-        <image class="icon" src="/static/images/icon-home-in.png" mode="aspectFit" />
+        <image
+          class="icon"
+          src="https://project-dscc.oss-cn-chengdu.aliyuncs.com/static/images/icon-home-in.png"
+          mode="aspectFit"
+        />
         <view class="text">首页</view>
       </view>
 
       <view v-if="active === 'user'" class="button active">
-        <image class="icon" src="/static/images/icon-user.png" mode="aspectFit" />
+        <image
+          class="icon"
+          src="https://project-dscc.oss-cn-chengdu.aliyuncs.com/static/images/icon-user.png"
+          mode="aspectFit"
+        />
         <view class="text">我的</view>
       </view>
       <view v-else class="button" @click="onClick('/pages/user/user')">
-        <image class="icon" src="/static/images/icon-user-in.png" mode="aspectFit" />
+        <image
+          class="icon"
+          src="https://project-dscc.oss-cn-chengdu.aliyuncs.com/static/images/icon-user-in.png"
+          mode="aspectFit"
+        />
         <view class="text">我的</view>
       </view>
     </view>

@@ -5,7 +5,11 @@
       <view class="name">{{ service.name }}</view>
       <view class="intro">{{ service.intro }}</view>
     </view>
-    <image class="arrow" src="/static/images/icon-right.png" mode="aspectFit" />
+    <image
+      class="arrow"
+      src="https://project-dscc.oss-cn-chengdu.aliyuncs.com/static/images/icon-right.png"
+      mode="aspectFit"
+    />
   </view>
 </template>
 

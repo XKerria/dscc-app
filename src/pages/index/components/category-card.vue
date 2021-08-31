@@ -1,6 +1,14 @@
 <template>
-  <view class="card" :style="{ backgroundImage: `url(/static/images/bg-${alias}.png)` }" @click="onCardClick">
-    <image class="icon" :src="`/static/images/icon-${alias}.png`" mode="aspectFit" />
+  <view
+    class="card"
+    :style="{ backgroundImage: `url(https://project-dscc.oss-cn-chengdu.aliyuncs.com/static/images/bg-${alias}.png)` }"
+    @click="onCardClick"
+  >
+    <image
+      class="icon"
+      :src="`https://project-dscc.oss-cn-chengdu.aliyuncs.com/static/images/icon-${alias}.png`"
+      mode="aspectFit"
+    />
     <view class="name">{{ name }}</view>
     <view class="wrapper">
       <view class="services" :style="{ gridTemplateColumns: `repeat(${columns}, auto)` }">
