@@ -1,29 +1,23 @@
 <template>
   <view class="page sales">
     <block v-for="item of sales" :key="item.id">
-      <view class="item">
-        <rich-text :nodes="item.content" />
-      </view>
+      <image class="item" :src="item.image_url" mode="aspectFill" @click="onSaleClick(item)" />
     </block>
   </view>
 </template>
 
 <script>
-import saleApi from '@/api/sale'
-import htmlUtils from '@/utils/html'
+import { mapState } from 'vuex'
 
 export default {
   name: 'sales',
-  data() {
-    return {
-      sales: []
-    }
+  computed: {
+    ...mapState('glob', ['sales'])
   },
-  onLoad() {
-    saleApi.index().then((data) => {
-      this.sales = data.map((i) => ({ ...i, nodes: htmlUtils.parse(i.content) }))
-      console.log(this.sales)
-    })
+  methods: {
+    onSaleClick(item) {
+      uni.navigateTo({ url: `/pages/sale/sale?id=${item.id}` })
+    }
   }
 }
 </script>

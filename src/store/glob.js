@@ -5,6 +5,7 @@ import vehicleApi from '@/api/vehicle'
 import couponApi from '@/api/coupon'
 import staffApi from '@/api/staff'
 import partnerApi from '@/api/partner'
+import saleApi from '@/api/sale'
 
 const state = () => ({
   banners: [],
@@ -14,7 +15,8 @@ const state = () => ({
   services: [],
   coupons: [],
   staffs: [],
-  partners: []
+  partners: [],
+  sales: []
 })
 
 const getters = {
@@ -48,6 +50,9 @@ const mutations = {
   },
   set_partners(state, payload) {
     state.partners = payload
+  },
+  set_sales(state, payload) {
+    state.sales = payload
   }
 }
 
@@ -93,6 +98,11 @@ const actions = {
       commit('set_partners', data)
     })
   },
+  loadSales({ commit }) {
+    saleApi.index().then((data) => {
+      commit('set_sales', data)
+    })
+  },
   init({ dispatch }) {
     dispatch('loadBanners')
     dispatch('loadSettings')
@@ -101,6 +111,7 @@ const actions = {
     dispatch('loadVehicles')
     dispatch('loadPartners')
     dispatch('loadStaffs')
+    dispatch('loadSales')
   }
 }
 
