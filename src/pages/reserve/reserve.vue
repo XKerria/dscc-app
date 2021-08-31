@@ -24,6 +24,7 @@
 
         <form-hotel ref="form" :service="service" v-if="name === '酒店预订'" />
         <form-ticket ref="form" :service="service" v-if="name === '票务预订'" />
+        <form-entertainment ref="form" :service="service" v-if="name === '娱乐预订'" />
       </view>
 
       <view class="tip">{{ service.tip }}</view>
@@ -65,6 +66,7 @@ import FormSecretary from './components/form-secretary.vue'
 import FormVehicle from './components/form-vehicle.vue'
 import FormHotel from './components/form-hotel.vue'
 import FormTicket from './components/form-ticket.vue'
+import FormEntertainment from './components/form-entertainment.vue'
 
 export default {
   name: 'reserve',
@@ -78,7 +80,8 @@ export default {
     FormSecretary,
     FormVehicle,
     FormHotel,
-    FormTicket
+    FormTicket,
+    FormEntertainment
   },
   computed: {
     service() {
