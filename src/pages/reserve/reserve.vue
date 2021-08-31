@@ -19,7 +19,11 @@
         <form-household ref="form" :service="service" v-if="name === '家政服务'" />
 
         <form-secretary ref="form" :service="service" v-if="name === '商务、酒会、聚会、娱乐出席'" />
+
+        <form-vehicle ref="form" :service="service" v-if="name === '美容、保养、维修、紧急救援'" />
       </view>
+
+      <view class="tip">{{ service.tip }}</view>
     </view>
 
     <view class="footer">
@@ -55,6 +59,7 @@ import FormPurchase from './components/form-purchase.vue'
 import FormDelivering from './components/form-delivering.vue'
 import FormHousehold from './components/form-household.vue'
 import FormSecretary from './components/form-secretary.vue'
+import FormVehicle from './components/form-vehicle.vue'
 
 export default {
   name: 'reserve',
@@ -65,7 +70,8 @@ export default {
     FormPurchase,
     FormDelivering,
     FormHousehold,
-    FormSecretary
+    FormSecretary,
+    FormVehicle
   },
   computed: {
     service() {
@@ -155,6 +161,12 @@ export default {
       background-color: #fff;
       border-radius: 10rpx;
       box-shadow: 0 0 30rpx 0 rgba(0, 0, 0, 0.1);
+    }
+
+    .tip {
+      margin-top: 20rpx;
+      font-size: 24rpx;
+      color: $u-type-primary;
     }
   }
 
