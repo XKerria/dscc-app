@@ -51,6 +51,12 @@
       }
     },
     {
+      "path": "pages/sales/sales",
+      "style": {
+        "navigationBarTitleText": "车辆代售库"
+      }
+    },
+    {
       "path": "pages/coupons/coupons"
     }
   ],

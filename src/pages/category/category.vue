@@ -44,6 +44,10 @@ export default {
   },
   methods: {
     onServiceClick(service) {
+      if (service.name === '车辆代售库') {
+        uni.navigateTo({ url: `/pages/sales/sales` })
+        return
+      }
       uni.navigateTo({ url: `/pages/service/service?name=${service.name}` })
     }
   }
