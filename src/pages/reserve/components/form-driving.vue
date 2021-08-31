@@ -56,7 +56,7 @@
           <text class="number placeholder">￥{{ vehicle.day_price }}</text>
         </u-form-item>
         <u-form-item label="总价">
-          <text class="number">￥{{ total }}</text>
+          <text class="number">￥{{ model.total }}</text>
         </u-form-item>
         <u-form-item label="备注" prop="remark">
           <u-input v-model="model.remark" type="textarea" height="60" placeholder="备注" maxlength="255" auto-height />
@@ -120,11 +120,7 @@ export default {
   },
   computed: {
     ...mapState('auth', ['user', 'tickets']),
-    ...mapState('glob', ['vehicles']),
-    total() {
-      if (!this.vehicle) return 0
-      return Math.round(Number(this.vehicle.day_price) * Number(this.model.duration)) || 0
-    }
+    ...mapState('glob', ['vehicles'])
   },
   data() {
     return {
@@ -142,8 +138,17 @@ export default {
         ticket_id: '',
         time: '',
         duration: 3,
+        total: 0,
         remark: ''
       }
+    }
+  },
+  watch: {
+    vehicle(val) {
+      this.model.total = Math.round(Number(this.vehicle?.day_price) * Number(this.model?.duration)) || 0
+    },
+    'model.duration'(val) {
+      this.model.total = Math.round(Number(this.vehicle?.day_price) * Number(this.model?.duration)) || 0
     }
   },
   onReady() {
@@ -163,7 +168,7 @@ export default {
     },
     onVehicleSelect([obj]) {
       this.model.vehicle = obj.label
-      this.vehicle = this.vehicles.find((i) => i.id === obj.extra)
+      this.vehicle = this.vehicles.find((i) => i.id === obj.value)
     },
     onTimeSelect({ year, month, day, hour, minute }) {
       this.model.time = `${year}-${month}-${day} ${hour}:${minute}`

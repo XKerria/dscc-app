@@ -1,11 +1,11 @@
 <template>
   <view class="footer">
     <view class="left" @click="$emit('call')">
-      <image class="icon" src="/static/images/icon-contact.png" />
+      <image class="icon" src="https://project-dscc.oss-cn-chengdu.aliyuncs.com/static/images/icon-contact.png" />
       <text class="text">联系客服</text>
     </view>
     <view class="right" @click="$emit('reserve')">
-      <image class="icon" src="/static/images/icon-btn-reserve.png" />
+      <image class="icon" src="https://project-dscc.oss-cn-chengdu.aliyuncs.com/static/images/icon-btn-reserve.png" />
       <text class="text">点击预约</text>
     </view>
   </view>

@@ -15,7 +15,11 @@
             <view class="duration">{{ duration(item) }}</view>
             <view class="btn">
               <text>点击领取</text>
-              <image class="arrow" src="/static/images/icon-arrow-right.png" mode="aspectFit" />
+              <image
+                class="arrow"
+                src="https://project-dscc.oss-cn-chengdu.aliyuncs.com/static/images/icon-arrow-right.png"
+                mode="aspectFit"
+              />
             </view>
           </view>
         </view>

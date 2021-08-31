@@ -1,11 +1,11 @@
 <template>
   <view class="footer">
     <view class="left" @click="$emit('call')">
-      <image class="icon" src="/static/images/icon-contact.png" />
+      <image class="icon" src="https://project-dscc.oss-cn-chengdu.aliyuncs.com/static/images/icon-contact.png" />
       <text class="text">订车专线</text>
     </view>
     <view class="right" @click="$emit('jump')">
-      <image class="icon" src="/static/images/icon-miniprogram.png" />
+      <image class="icon" src="https://project-dscc.oss-cn-chengdu.aliyuncs.com/static/images/icon-miniprogram.png" />
       <text class="text">更多车型</text>
     </view>
   </view>

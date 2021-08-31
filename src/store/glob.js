@@ -84,7 +84,7 @@ const actions = {
   },
   loadVehicles({ commit }) {
     vehicleApi.index().then((data) => {
-      const vehicles = data.map((i) => ({ ...i, label: i.name, value: i.name, extra: i.id }))
+      const vehicles = data.map((i) => ({ ...i, label: i.name, value: i.id, extra: i.id }))
       commit('set_vehicles', vehicles)
     })
   },

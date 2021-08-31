@@ -63,6 +63,12 @@
       }
     },
     {
+      "path": "pages/user/reserves",
+      "style": {
+        "navigationBarTitleText": "我的预约"
+      }
+    },
+    {
       "path": "pages/sales/sales",
       "style": {
         "navigationBarTitleText": "车辆代售库"

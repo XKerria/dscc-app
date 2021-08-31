@@ -38,11 +38,11 @@
 
     <view class="footer">
       <view class="left" @click="onPhoneClick">
-        <image class="icon" src="/static/images/icon-contact.png" />
+        <image class="icon" src="https://project-dscc.oss-cn-chengdu.aliyuncs.com/static/images/icon-contact.png" />
         <text class="text">联系客服</text>
       </view>
       <view class="right" @click="onSubmitClick">
-        <image class="icon" src="/static/images/icon-btn-reserve.png" />
+        <image class="icon" src="https://project-dscc.oss-cn-chengdu.aliyuncs.com/static/images/icon-btn-reserve.png" />
         <text class="text">确认预约</text>
       </view>
     </view>
@@ -59,7 +59,7 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+import { mapActions, mapState } from 'vuex'
 import reserveApi from '@/api/reserve'
 
 import FormDriving from './components/form-driving.vue'
@@ -92,6 +92,7 @@ export default {
     FormCustom
   },
   computed: {
+    ...mapState('auth', ['user']),
     service() {
       return this.$store.state.glob.services.find((i) => i.name === this.name)
     },
@@ -110,16 +111,21 @@ export default {
     uni.setNavigationBarTitle({ title: params.name })
   },
   methods: {
-    ...mapActions('auth', ['loadTickets']),
+    ...mapActions('auth', ['loadTickets', 'loadReserves']),
     onPhoneClick() {
       uni.makePhoneCall({ phoneNumber: this.phone })
     },
     onSubmitClick() {
       this.$refs.form.validate().then((values) => {
-        reserveApi.store({ ...values, service_id: this.service.id }, { type: this.service.name }).then((reserve) => {
-          if (reserve.ticket_id) this.loadTickets()
-          this.show = true
-        })
+        reserveApi
+          .store({ ...values, user_id: this.user.id, service_id: this.service.id }, { type: this.service.name })
+          .then((reserve) => {
+            if (reserve.ticket_id) {
+              this.loadTickets()
+              this.loadReserves()
+            }
+            this.show = true
+          })
       })
     },
     onConfirm() {

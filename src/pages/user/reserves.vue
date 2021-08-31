@@ -1,7 +1,7 @@
 <template>
-  <view class="page wallet">
-    <view class="empty" v-if="!tickets.length">您没有领取任何优惠券</view>
-    <block v-for="item of tickets" :key="item.id">
+  <view class="page reserves">
+    <view class="empty" v-if="!reserves.length">您暂时没有预约</view>
+    <block v-for="item of reserves" :key="item.id">
       <view class="coupon" :style="{ backgroundImage: `url(${bg})` }">
         <view class="left">
           <view>
@@ -31,19 +31,15 @@
 import { mapGetters, mapState } from 'vuex'
 
 export default {
-  name: 'wallet',
+  name: 'reserves',
   computed: {
-    ...mapState('auth', ['tickets']),
-    ...mapGetters('glob', ['setting']),
-    bg() {
-      return this.setting('优惠券背景')
-    }
+    ...mapState('auth', ['reserves'])
   }
 }
 </script>
 
 <style lang="scss" scoped>
-.wallet {
+.reserves {
   padding: 30rpx;
 
   .empty {

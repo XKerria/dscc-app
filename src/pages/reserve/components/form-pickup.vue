@@ -199,7 +199,7 @@ export default {
       }
     },
     'model.distance'(val) {
-      this.model.total = Math.round(Number(this.service?.prices?.km) * Number(val)) || 0
+      this.model.total = Math.round(Number(this.vehicle?.km_price) * Number(val)) || 0
     }
   },
   onReady() {
