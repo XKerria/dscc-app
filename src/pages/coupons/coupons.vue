@@ -52,7 +52,8 @@ export default {
     }
   },
   onLoad(options) {
-    this.partnerId = options.partnerId
+    const url = decodeURIComponent(options.q)
+    this.partnerId = url.split('=')?.[1] ?? ''
   },
   methods: {
     ...mapActions('auth', ['loadTickets']),
