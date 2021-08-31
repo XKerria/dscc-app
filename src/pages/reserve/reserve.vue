@@ -149,21 +149,11 @@ export default {
       uni.navigateBack()
     },
     permissionCheck() {
-      wxUtils
-        .checkPermission('scope.userLocation')
-        .then(() => {
-          this.allowed = true
+      wxUtils.checkPermission('scope.userLocation').catch(() => {
+        wxUtils.authorize('scope.userLocation').catch(() => {
+          this.$refs.modal.show()
         })
-        .catch((e) => {
-          wxUtils
-            .authorize('scope.userLocation')
-            .then((res) => {
-              this.allowed = false
-            })
-            .catch((e) => {
-              this.$refs.modal.show()
-            })
-        })
+      })
     },
     onAuthorizeFail() {
       this.showBack = true

@@ -1,5 +1,5 @@
 <template>
-  <u-modal v-model="visible" title="授权" :show-cancel-button="false" :show-confirm-button="false" mask-close-able>
+  <u-modal v-model="visible" title="授权" :show-cancel-button="false" :show-confirm-button="false">
     <view class="wrapper">
       <u-button type="primary" shape="circle" @click="onClick">
         位置信息
