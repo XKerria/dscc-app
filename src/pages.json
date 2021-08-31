@@ -23,6 +23,18 @@
       }
     },
     {
+      "path": "pages/income/compute",
+      "style": {
+        "navigationBarTitleText": "收益计算"
+      }
+    },
+    {
+      "path": "pages/income/result",
+      "style": {
+        "navigationBarTitleText": "收益计算"
+      }
+    },
+    {
       "path": "pages/user/user",
       "style": {
         "navigationBarTitleText": "我的",
@@ -60,18 +72,6 @@
       "path": "pages/sale/sale",
       "style": {
         "navigationBarTitleText": "车辆代售库"
-      }
-    },
-    {
-      "path": "pages/income/compute",
-      "style": {
-        "navigationBarTitleText": "收益计算"
-      }
-    },
-    {
-      "path": "pages/income/result",
-      "style": {
-        "navigationBarTitleText": "收益计算"
       }
     },
     {
