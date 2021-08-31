@@ -27,23 +27,6 @@
         @confirm="onStaffSelect"
       />
     </u-form-item>
-    <u-form-item label="使用车型" prop="vehicle">
-      <u-input
-        v-model="model.vehicle"
-        placeholder="请选择"
-        type="select"
-        @click="showVehicles = true"
-        :select-open="showVehicles"
-      />
-      <u-select
-        v-model="showVehicles"
-        confirm-color="#ff1c3d"
-        label-name="name"
-        value-name="id"
-        :list="vehicles"
-        @confirm="onVehicleSelect"
-      />
-    </u-form-item>
     <u-form-item label="预约时间" prop="time">
       <u-input
         v-model="model.time"
@@ -124,7 +107,6 @@ const rules = {
     { required: true, message: '必填' },
     { pattern: /^1[3-9][0-9]{9}$/, message: '手机号格式错误' }
   ],
-  vehicle: [{ required: true, message: '必选' }],
   time: [{ required: true, message: '必选' }],
   from: [{ required: true, message: '必选' }],
   to: [{ required: true, message: '必选' }],
@@ -137,13 +119,16 @@ const rules = {
 
 export default {
   name: 'form',
+  props: {
+    service: {
+      type: Object,
+      required: true
+    }
+  },
   computed: {
     ...mapState('auth', ['user', 'tickets']),
-    ...mapState('glob', ['staffs', 'vehicles']),
-    total() {
-      const { distance } = this.model
-      return { distance, price: this.vehicle?.km_price ?? null }
-    },
+    ...mapState('glob', ['staffs']),
+    total() {},
     fromto() {
       const { from, to } = this.model
       return { from, to }
@@ -153,22 +138,18 @@ export default {
     return {
       params,
       showStaffs: false,
-      showVehicles: false,
       showTime: false,
       showTickets: false,
-      vehicle: null,
       staff: null,
       model: {
         name: '',
         phone: '',
         staff_id: '',
-        vehicle: '',
         time: '',
         from: null,
         to: null,
         duration: 0,
         distance: 0,
-        total: 0,
         remark: '',
         ticket_id: ''
       }
@@ -192,12 +173,8 @@ export default {
           })
       }
     },
-    total: {
-      deep: true,
-      handler({ distance, price }) {
-        if (!distance || !price) return
-        this.model.total = Math.round(distance * price)
-      }
+    'model.distance'(val) {
+      this.model.total = Math.round(Number(this.service?.prices?.km) * Number(val)) || 0
     }
   },
   onReady() {
@@ -219,10 +196,6 @@ export default {
           }
         })
       })
-    },
-    onVehicleSelect([obj]) {
-      this.model.vehicle = obj.label
-      this.vehicle = this.vehicles.find((i) => i.id === obj.value)
     },
     onStaffSelect([obj]) {
       this.model.staff = obj.label
