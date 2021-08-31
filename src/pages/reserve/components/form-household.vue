@@ -73,7 +73,6 @@
 
 <script>
 import { mapState } from 'vuex'
-import mapUtils from '@/utils/map'
 
 const params = {
   year: true,
