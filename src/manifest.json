@@ -63,6 +63,11 @@
     "setting": {
       "urlCheck": false
     },
+    "permission": {
+      "scope.userLocation": {
+        "desc": "您的位置信息将用于预约服务"
+      }
+    },
     "usingComponents": true
   },
   "mp-alipay": {

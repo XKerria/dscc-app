@@ -55,12 +55,25 @@
       :show-cancel-button="false"
       @confirm="onConfirm"
     />
+
+    <u-modal
+      v-model="showBack"
+      title="提示"
+      content="位置信息授权失败"
+      confirm-color="#ff1c3d"
+      :show-cancel-button="false"
+      @confirm="onConfirm"
+    />
+
+    <open-setting ref="modal" @fail="onAuthorizeFail" />
   </view>
 </template>
 
 <script>
 import { mapActions, mapState } from 'vuex'
 import reserveApi from '@/api/reserve'
+import wxUtils from '@/utils/wechat'
+import OpenSetting from '@/components/common/open-setting'
 
 import FormDriving from './components/form-driving.vue'
 import FormPickup from './components/form-pickup.vue'
@@ -78,6 +91,7 @@ import FormCustom from './components/form-custom.vue'
 export default {
   name: 'reserve',
   components: {
+    OpenSetting,
     FormDriving,
     FormPickup,
     'form-dd': FormDD,
@@ -103,12 +117,15 @@ export default {
   data() {
     return {
       show: false,
-      name: ''
+      showBack: false,
+      name: '',
+      allowed: false
     }
   },
   onLoad(params) {
     this.name = params.name
     uni.setNavigationBarTitle({ title: params.name })
+    this.permissionCheck()
   },
   methods: {
     ...mapActions('auth', ['loadTickets', 'loadReserves']),
@@ -130,6 +147,26 @@ export default {
     },
     onConfirm() {
       uni.navigateBack()
+    },
+    permissionCheck() {
+      wxUtils
+        .checkPermission('scope.userLocation')
+        .then(() => {
+          this.allowed = true
+        })
+        .catch((e) => {
+          wxUtils
+            .authorize('scope.userLocation')
+            .then((res) => {
+              this.allowed = false
+            })
+            .catch((e) => {
+              this.$refs.modal.show()
+            })
+        })
+    },
+    onAuthorizeFail() {
+      this.showBack = true
     }
   }
 }
