@@ -80,8 +80,7 @@ const actions = {
   },
   loadStaffs({ commit }) {
     staffApi.index().then((data) => {
-      const staffs = [{ name: '公司指定', id: '' }, ...data]
-      commit('set_staffs', staffs)
+      commit('set_staffs', data)
     })
   },
   init({ dispatch }) {

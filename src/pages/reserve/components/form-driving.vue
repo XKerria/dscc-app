@@ -112,6 +112,12 @@ const units = { 代金券: '￥' }
 
 export default {
   name: 'form',
+  props: {
+    service: {
+      type: Object,
+      required: true
+    }
+  },
   computed: {
     ...mapState('auth', ['user', 'tickets']),
     ...mapState('glob', ['vehicles']),

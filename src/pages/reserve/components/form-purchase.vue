@@ -6,7 +6,7 @@
     <u-form-item label="您的电话" prop="phone">
       <u-input v-model="model.phone" placeholder="请输入" maxlength="11" type="number" />
     </u-form-item>
-    <u-form-item label="您的司机" prop="staff">
+    <u-form-item label="您的秘书" prop="staff">
       <view class="staff">
         <image v-if="staff && staff.avatar_url" class="avatar" :src="staff.avatar_url" mode="aspectFill" />
         <u-input
@@ -44,10 +44,10 @@
         @confirm="onTimeSelect"
       />
     </u-form-item>
-    <u-form-item label="服务起点" prop="from">
+    <u-form-item label="购买地点" prop="from">
       <u-input :value="model.from.name" placeholder="请选择" type="select" @click="onFromClick" />
     </u-form-item>
-    <u-form-item label="服务终点" prop="to">
+    <u-form-item label="送达地点" prop="to">
       <u-input v-model="model.to.name" placeholder="请选择" type="select" @click="onToClick" />
     </u-form-item>
     <u-form-item label="服务时长" prop="duration">

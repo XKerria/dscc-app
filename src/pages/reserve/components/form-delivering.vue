@@ -6,27 +6,6 @@
     <u-form-item label="您的电话" prop="phone">
       <u-input v-model="model.phone" placeholder="请输入" maxlength="11" type="number" />
     </u-form-item>
-    <u-form-item label="您的司机" prop="staff">
-      <view class="staff">
-        <image v-if="staff && staff.avatar_url" class="avatar" :src="staff.avatar_url" mode="aspectFill" />
-        <u-input
-          class="input"
-          v-model="model.staff"
-          placeholder="请输入"
-          type="select"
-          @click="showStaffs = true"
-          :select-open="showStaffs"
-        />
-      </view>
-      <u-select
-        v-model="showStaffs"
-        confirm-color="#ff1c3d"
-        label-name="name"
-        value-name="id"
-        :list="staffs"
-        @confirm="onStaffSelect"
-      />
-    </u-form-item>
     <u-form-item label="预约时间" prop="time">
       <u-input
         v-model="model.time"
@@ -44,10 +23,10 @@
         @confirm="onTimeSelect"
       />
     </u-form-item>
-    <u-form-item label="服务起点" prop="from">
+    <u-form-item label="取货地点" prop="from">
       <u-input :value="model.from.name" placeholder="请选择" type="select" @click="onFromClick" />
     </u-form-item>
-    <u-form-item label="服务终点" prop="to">
+    <u-form-item label="送达地点" prop="to">
       <u-input v-model="model.to.name" placeholder="请选择" type="select" @click="onToClick" />
     </u-form-item>
     <u-form-item label="服务时长" prop="duration">
@@ -113,7 +92,6 @@ const rules = {
   duration: [{ required: true, message: '必填' }],
   distance: [{ required: true, message: '必填' }],
   remark: [{ min: 0, max: 255, message: '长度为 0 ~ 255 字符' }],
-  staff_id: [{ required: true, message: '必选' }],
   ticket: []
 }
 
@@ -127,10 +105,6 @@ export default {
   },
   computed: {
     ...mapState('auth', ['user', 'tickets']),
-    staffs() {
-      const all = this.$store.state.glob.staffs
-      return [{ name: '公司指派', id: '' }, ...all.filter((i) => i.type === this.service.staff_type)]
-    },
     fromto() {
       const { from, to } = this.model
       return { from, to }
@@ -139,14 +113,11 @@ export default {
   data() {
     return {
       params,
-      showStaffs: false,
       showTime: false,
       showTickets: false,
-      staff: null,
       model: {
         name: '',
         phone: '',
-        staff_id: '',
         time: '',
         from: null,
         to: null,
@@ -199,11 +170,6 @@ export default {
         })
       })
     },
-    onStaffSelect([obj]) {
-      this.model.staff = obj.label
-      this.model.staff_id = obj.value
-      this.staff = this.staffs.find((i) => i.id === obj.value)
-    },
     onTimeSelect({ year, month, day, hour, minute }) {
       this.model.time = `${year}-${month}-${day} ${hour}:${minute}`
     },
@@ -240,22 +206,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.staff {
-  display: flex;
-  align-items: center;
-
-  .avatar {
-    height: 80rpx;
-    width: 80rpx;
-    border-radius: 50%;
-    margin-right: 16rpx;
-  }
-
-  .input {
-    flex: 1;
-  }
-}
-
 .number {
   font-size: 36rpx;
   font-family: 'Bebas Neue';

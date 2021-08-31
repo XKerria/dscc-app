@@ -10,9 +10,12 @@
       </view>
 
       <view class="form">
-        <form-driving ref="form" v-if="name === '自驾'" />
-        <form-pickup ref="form" v-if="name === '接送'" />
+        <form-driving ref="form" :service="service" v-if="name === '自驾'" />
+        <form-pickup ref="form" :service="service" v-if="name === '接送'" />
         <form-dd ref="form" :service="service" v-if="name === '代驾'" />
+
+        <form-purchase ref="form" :service="service" v-if="name === '商品、奢侈品代购'" />
+        <form-delivering ref="form" :service="service" v-if="name === '物品送取'" />
       </view>
     </view>
 
@@ -41,16 +44,21 @@
 <script>
 import { mapActions } from 'vuex'
 import reserveApi from '@/api/reserve'
+
 import FormDriving from './components/form-driving.vue'
 import FormPickup from './components/form-pickup.vue'
 import FormDD from './components/form-designated-driving.vue'
+import FormPurchase from './components/form-purchase.vue'
+import FormDelivering from './components/form-delivering.vue'
 
 export default {
   name: 'reserve',
   components: {
     FormDriving,
     FormPickup,
-    'form-dd': FormDD
+    'form-dd': FormDD,
+    FormPurchase,
+    FormDelivering
   },
   computed: {
     service() {

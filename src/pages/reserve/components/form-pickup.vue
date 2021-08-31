@@ -137,12 +137,18 @@ const rules = {
 
 export default {
   name: 'form',
+  props: {
+    service: {
+      type: Object,
+      required: true
+    }
+  },
   computed: {
     ...mapState('auth', ['user', 'tickets']),
-    ...mapState('glob', ['staffs', 'vehicles']),
-    total() {
-      const { distance } = this.model
-      return { distance, price: this.vehicle?.km_price ?? null }
+    ...mapState('glob', ['vehicles']),
+    staffs() {
+      const all = this.$store.state.glob.staffs
+      return [{ name: '公司指派', id: '' }, ...all.filter((i) => i.type === this.service.staff_type)]
     },
     fromto() {
       const { from, to } = this.model
@@ -192,12 +198,8 @@ export default {
           })
       }
     },
-    total: {
-      deep: true,
-      handler({ distance, price }) {
-        if (!distance || !price) return
-        this.model.total = Math.round(distance * price)
-      }
+    'model.distance'(val) {
+      this.model.total = Math.round(Number(this.service?.prices?.km) * Number(val)) || 0
     }
   },
   onReady() {
