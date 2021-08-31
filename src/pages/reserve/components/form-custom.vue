@@ -6,9 +6,6 @@
     <u-form-item label="您的电话" prop="phone">
       <u-input v-model="model.phone" placeholder="请输入" maxlength="11" type="number" />
     </u-form-item>
-    <u-form-item label="身份证号" prop="idcard">
-      <u-input v-model="model.idcard" placeholder="请输入" maxlength="18" type="idcard" />
-    </u-form-item>
     <u-form-item label="您的秘书" prop="staff">
       <view class="staff">
         <image v-if="staff && staff.avatar_url" class="avatar" :src="staff.avatar_url" mode="aspectFill" />
@@ -30,27 +27,6 @@
         @confirm="onStaffSelect"
       />
     </u-form-item>
-    <u-form-item label="合作公司" prop="partner">
-      <u-input
-        class="input"
-        v-model="model.partner"
-        placeholder="请输入"
-        type="select"
-        @click="showPartners = true"
-        :select-open="showPartners"
-      />
-      <u-select
-        v-model="showPartners"
-        confirm-color="#ff1c3d"
-        label-name="name"
-        value-name="id"
-        :list="partners"
-        @confirm="onPartnerSelect"
-      />
-    </u-form-item>
-    <u-form-item label="指定公司" prop="specify">
-      <u-input :value="model.specify.name" placeholder="请选择" type="select" @click="onSpecifyClick" />
-    </u-form-item>
     <u-form-item label="预约时间" prop="time">
       <u-input
         v-model="model.time"
@@ -67,6 +43,9 @@
         :params="params"
         @confirm="onTimeSelect"
       />
+    </u-form-item>
+    <u-form-item label="需求描述" prop="desc">
+      <u-input v-model="model.desc" type="textarea" height="250" placeholder="需求描述" maxlength="1024" />
     </u-form-item>
     <u-form-item label="备注" prop="remark">
       <u-input v-model="model.remark" type="textarea" height="60" placeholder="备注" maxlength="255" auto-height />
@@ -106,17 +85,10 @@ const rules = {
     { required: true, message: '必填' },
     { pattern: /^1[3-9][0-9]{9}$/, message: '手机号格式错误' }
   ],
-  idcard: [
-    { required: true, message: '必填' },
-    {
-      pattern: /^[1-9]\d{5}(18|19|20)\d{2}((0[1-9])|(1[0-2]))(([0-2][1-9])|10|20|30|31)\d{3}[0-9Xx]$/,
-      message: '身份证号格式错误'
-    }
-  ],
   staff_id: [{ required: true, message: '必选' }],
-  partner: [],
   time: [{ required: true, message: '必选' }],
-  remark: [{ min: 0, max: 255, message: '长度为 0 ~ 255 字符' }],
+  desc: [{ max: 1024, message: '长度为不超过 1024' }],
+  remark: [{ max: 255, message: '长度为不超过 255' }],
   ticket: []
 }
 
@@ -133,28 +105,21 @@ export default {
     staffs() {
       const all = this.$store.state.glob.staffs
       return [{ name: '公司指派', id: '' }, ...all.filter((i) => i.type === this.service.staff_type)]
-    },
-    partners() {
-      const all = this.$store.state.glob.partners
-      return all.filter((i) => i.type === this.service.partner_type)
     }
   },
   data() {
     return {
       params,
       showStaffs: false,
-      showPartners: false,
       showTime: false,
       showTickets: false,
       staff: null,
       model: {
         name: '',
         phone: '',
-        idcard: '',
         staff_id: '',
-        partner: '',
-        specify: null,
         time: '',
+        desc: '',
         remark: '',
         ticket_id: ''
       }
@@ -173,21 +138,10 @@ export default {
         })
       })
     },
-    onPartnerSelect([obj]) {
-      this.model.partner = obj.label
-    },
     onStaffSelect([obj]) {
       this.model.staff = obj.label
       this.model.staff_id = obj.value
       this.staff = this.staffs.find((i) => i.id === obj.value)
-    },
-    onSpecifyClick() {
-      const thiz = this
-      uni.chooseLocation({
-        success(res) {
-          thiz.model.specify = res
-        }
-      })
     },
     onTimeSelect({ year, month, day, hour, minute }) {
       this.model.time = `${year}-${month}-${day} ${hour}:${minute}`
