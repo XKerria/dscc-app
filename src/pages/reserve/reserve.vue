@@ -21,6 +21,8 @@
         <form-secretary ref="form" :service="service" v-if="name === '商务、酒会、聚会、娱乐出席'" />
 
         <form-vehicle ref="form" :service="service" v-if="name === '美容、保养、维修、紧急救援'" />
+
+        <form-hotel ref="form" :service="service" v-if="name === '酒店预订'" />
       </view>
 
       <view class="tip">{{ service.tip }}</view>
@@ -60,6 +62,7 @@ import FormDelivering from './components/form-delivering.vue'
 import FormHousehold from './components/form-household.vue'
 import FormSecretary from './components/form-secretary.vue'
 import FormVehicle from './components/form-vehicle.vue'
+import FormHotel from './components/form-hotel.vue'
 
 export default {
   name: 'reserve',
@@ -71,7 +74,8 @@ export default {
     FormDelivering,
     FormHousehold,
     FormSecretary,
-    FormVehicle
+    FormVehicle,
+    FormHotel
   },
   computed: {
     service() {
