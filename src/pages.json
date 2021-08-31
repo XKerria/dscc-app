@@ -63,6 +63,18 @@
       }
     },
     {
+      "path": "pages/income/compute",
+      "style": {
+        "navigationBarTitleText": "收益计算"
+      }
+    },
+    {
+      "path": "pages/income/result",
+      "style": {
+        "navigationBarTitleText": "收益计算"
+      }
+    },
+    {
       "path": "pages/coupons/coupons"
     }
   ],

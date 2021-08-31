@@ -48,6 +48,10 @@ export default {
         uni.navigateTo({ url: `/pages/sales/sales` })
         return
       }
+      if (service.name === '收益计算') {
+        uni.navigateTo({ url: `/pages/income/compute` })
+        return
+      }
       uni.navigateTo({ url: `/pages/service/service?name=${service.name}` })
     }
   }
