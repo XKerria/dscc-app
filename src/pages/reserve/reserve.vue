@@ -16,6 +16,7 @@
 
         <form-purchase ref="form" :service="service" v-if="name === '商品、奢侈品代购'" />
         <form-delivering ref="form" :service="service" v-if="name === '物品送取'" />
+        <form-household ref="form" :service="service" v-if="name === '家政服务'" />
       </view>
     </view>
 
@@ -50,6 +51,7 @@ import FormPickup from './components/form-pickup.vue'
 import FormDD from './components/form-designated-driving.vue'
 import FormPurchase from './components/form-purchase.vue'
 import FormDelivering from './components/form-delivering.vue'
+import FormHousehold from './components/form-household.vue'
 
 export default {
   name: 'reserve',
@@ -58,7 +60,8 @@ export default {
     FormPickup,
     'form-dd': FormDD,
     FormPurchase,
-    FormDelivering
+    FormDelivering,
+    FormHousehold
   },
   computed: {
     service() {
