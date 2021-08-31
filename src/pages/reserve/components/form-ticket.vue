@@ -30,7 +30,7 @@
         @confirm="onStaffSelect"
       />
     </u-form-item>
-    <u-form-item label="合作酒店" prop="partner">
+    <u-form-item label="合作公司" prop="partner">
       <u-input
         class="input"
         v-model="model.partner"
@@ -48,39 +48,22 @@
         @confirm="onPartnerSelect"
       />
     </u-form-item>
-    <u-form-item label="指定酒店" prop="specify">
-      <u-input :value="model.specify.name" placeholder="请选择" type="select" @click="onSpecifyClick" />
-    </u-form-item>
-    <u-form-item label="入住时间" prop="start">
+    <u-form-item label="预约时间" prop="time">
       <u-input
-        v-model="model.start"
+        v-model="model.time"
         placeholder="请选择"
         type="select"
-        @click="showStart = true"
-        :select-open="showStart"
+        @click="showTime = true"
+        :select-open="showTime"
       />
       <u-picker
-        v-model="showStart"
+        v-model="showTime"
         mode="time"
         confirm-color="#ff1c3d"
         placeholder="请选择"
         :params="params"
-        @confirm="onStartSelect"
+        @confirm="onTimeSelect"
       />
-    </u-form-item>
-    <u-form-item label="离店时间" prop="end">
-      <u-input v-model="model.end" placeholder="请选择" type="select" @click="showEnd = true" :select-open="showEnd" />
-      <u-picker
-        v-model="showEnd"
-        mode="time"
-        confirm-color="#ff1c3d"
-        placeholder="请选择"
-        :params="params"
-        @confirm="onEndSelect"
-      />
-    </u-form-item>
-    <u-form-item label="预约房型" prop="room">
-      <u-input v-model="model.room" placeholder="请输入" maxlength="32" clearable />
     </u-form-item>
     <u-form-item label="备注" prop="remark">
       <u-input v-model="model.remark" type="textarea" height="60" placeholder="备注" maxlength="255" auto-height />
@@ -121,9 +104,6 @@ const rules = {
     { required: true, message: '必填' },
     { pattern: /^1[3-9][0-9]{9}$/, message: '手机号格式错误' }
   ],
-  staff_id: [{ required: true, message: '必选' }],
-  partner: [],
-  specify: [],
   idcard: [
     { required: true, message: '必填' },
     {
@@ -131,9 +111,9 @@ const rules = {
       message: '身份证号格式错误'
     }
   ],
-  start: [{ required: true, message: '必选' }],
-  end: [],
-  room: [{ min: 0, max: 255, message: '长度为 0 ~ 255 字符' }],
+  staff_id: [{ required: true, message: '必选' }],
+  partner: [],
+  time: [{ required: true, message: '必选' }],
   remark: [{ min: 0, max: 255, message: '长度为 0 ~ 255 字符' }],
   ticket: []
 }
@@ -162,20 +142,16 @@ export default {
       params,
       showStaffs: false,
       showPartners: false,
-      showStart: false,
-      showEnd: false,
+      showTime: false,
       showTickets: false,
       staff: null,
       model: {
         name: '',
         phone: '',
+        idcard: '',
         staff_id: '',
         partner: '',
-        specify: null,
-        idcard: '',
-        start: '',
-        end: '',
-        room: '',
+        time: '',
         remark: '',
         ticket_id: ''
       }
@@ -202,19 +178,8 @@ export default {
       this.model.staff_id = obj.value
       this.staff = this.staffs.find((i) => i.id === obj.value)
     },
-    onStartSelect({ year, month, day, hour, minute }) {
-      this.model.start = `${year}-${month}-${day} ${hour}:${minute}`
-    },
-    onEndSelect({ year, month, day, hour, minute }) {
-      this.model.end = `${year}-${month}-${day} ${hour}:${minute}`
-    },
-    onSpecifyClick() {
-      const thiz = this
-      uni.chooseLocation({
-        success(res) {
-          thiz.model.specify = res
-        }
-      })
+    onTimeSelect({ year, month, day, hour, minute }) {
+      this.model.time = `${year}-${month}-${day} ${hour}:${minute}`
     },
     onTicketClick() {
       if (!this.tickets.length) {
