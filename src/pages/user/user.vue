@@ -2,7 +2,7 @@
   <page-arc>
     <user-panel>
       <button v-if="!user.phone" class="btn-login" open-type="getPhoneNumber" @getphonenumber="onLoginClick">
-        <text>登录</text>
+        登录
       </button>
     </user-panel>
 
@@ -24,6 +24,8 @@
     <u-gap height="50" />
 
     <contact-card class="panel" />
+
+    <u-toast ref="toast" />
 
     <template v-slot:footer>
       <ui-footer />
@@ -49,22 +51,41 @@ export default {
   methods: {
     ...mapActions('auth', ['updateUser', 'bindPhone']),
     onInfoClick() {
+      if (!this.user.phone) {
+        this.$refs.toast.show({ title: '请登录', type: 'warning' })
+        return
+      }
       uni.navigateTo({ url: '/pages/user/info' })
     },
     onVipClick() {
+      if (!this.user.phone) {
+        this.$refs.toast.show({ title: '请登录', type: 'warning' })
+        return
+      }
       uni.navigateTo({ url: '/pages/user/vip' })
     },
     onWalletClick() {
+      if (!this.user.phone) {
+        this.$refs.toast.show({ title: '请登录', type: 'warning' })
+        return
+      }
       uni.navigateTo({ url: '/pages/user/wallet' })
     },
     onReservesClick() {
+      if (!this.user.phone) {
+        this.$refs.toast.show({ title: '请登录', type: 'warning' })
+        return
+      }
       uni.navigateTo({ url: '/pages/user/reserves' })
     },
     onPhoneClick() {
       uni.makePhoneCall({ phoneNumber: this.phone })
     },
     onLoginClick(e) {
-      if (e.detail) this.bindPhone(e.detail)
+      if (e.detail)
+        this.bindPhone(e.detail).then(() => {
+          this.$refs.toast.show({ title: '登录成功', type: 'success' })
+        })
     }
   }
 }
