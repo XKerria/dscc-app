@@ -20,8 +20,8 @@ const state = () => ({
 })
 
 const getters = {
-  guides: (state) => state.banners.filter((i) => i.type === 'guide'),
-  banners: (state) => state.banners.filter((i) => i.type === 'banner'),
+  guides: (state) => state.banners.filter((i) => i.type === '引导页'),
+  banners: (state) => state.banners.filter((i) => i.type === 'Banner'),
   setting: (state) => (name) => state.settings.find((i) => i.name === name)?.value ?? null,
   category: (state) => (name) => state.categories.filter((i) => i.name === name)?.[0]?.value ?? null
 }
