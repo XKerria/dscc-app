@@ -13,7 +13,7 @@ import { mapActions } from 'vuex'
 import wxUtils from '@/utils/wechat'
 
 export default {
-  name: '-bind',
+  name: 'open-setting',
   data() {
     return {
       visible: false
