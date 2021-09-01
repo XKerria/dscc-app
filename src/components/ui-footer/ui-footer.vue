@@ -71,11 +71,6 @@ export default {
         return
       }
 
-      if (page === '/pages/user/user' && !this.user.phone) {
-        this.$refs.bind.show()
-        return
-      }
-
       uni.navigateTo({ url: page })
     },
     toUserPage() {
@@ -91,6 +86,7 @@ export default {
   height: 110rpx;
   background-color: #fff;
   position: relative;
+  box-shadow: 0 0 20rpx rgba(0, 0, 0, 0.1);
 
   .wrapper {
     position: absolute;

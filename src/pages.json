@@ -45,7 +45,7 @@
     {
       "path": "pages/user/info",
       "style": {
-        "navigationBarTitleText": "我的信息",
+        "navigationBarTitleText": "信息设置",
         "navigationBarBackgroundColor": "#fe6240",
         "navigationBarTextStyle": "white"
       }

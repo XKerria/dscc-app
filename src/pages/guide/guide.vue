@@ -41,12 +41,12 @@ export default {
       this.current = e.detail.current
     },
     onClick() {
-      if (!this.user.id || !this.user.nickname) {
-        this.updateUser().then(() => {
-          uni.redirectTo({ url: '/pages/index/index' })
-        })
-        return
-      }
+      // if (!this.user.id || !this.user.nickname) {
+      //   this.updateUser().then(() => {
+      //     uni.redirectTo({ url: '/pages/index/index' })
+      //   })
+      //   return
+      // }
       uni.redirectTo({ url: '/pages/index/index' })
     }
   }

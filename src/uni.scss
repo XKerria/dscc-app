@@ -1,1 +1,5 @@
 @import './assets/styles/uview.theme.scss';
+
+$primary: $u-type-primary;
+$showdow: 0 0 30rpx 0 rbga(0, 0, 0, 0.1);
+$bg-btn: linear-gradient(to right, #ff243d, #ff6b40);

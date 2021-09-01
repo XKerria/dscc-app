@@ -1,29 +1,10 @@
 <template>
-  <view class="page info">
-    <view class="arc">
-      <ui-arc />
-    </view>
-
-    <u-gap height="66" />
-
-    <view class="panel panel-base">
-      <view class="left">
-        <view class="avatar">
-          <open-data type="userAvatarUrl"></open-data>
-        </view>
-        <view class="base">
-          <view class="nickname">
-            <open-data type="userNickName"></open-data>
-          </view>
-          <image v-if="user.vip" :src="user.vip.icon_url" class="vip" mode="aspectFit" />
-        </view>
-      </view>
-      <view class="right">
-        <u-icon name="reload" color="#fff" size="32" @click="onRefreshClick" />
-      </view>
-    </view>
-
-    <u-gap height="50" />
+  <page-arc>
+    <user-panel>
+      <button class="btn" @click="onSyncClick">
+        <text>同步信息</text>
+      </button>
+    </user-panel>
 
     <view class="group">
       <u-cell-group>
@@ -35,89 +16,71 @@
         <u-cell-item title="手机号" :arrow="false" :value="user.phone || '-'" />
         <u-cell-item title="国家" :arrow="false" :value="user.country || '-'" />
         <u-cell-item title="省" :arrow="false" :value="user.province || '-'" />
-        <u-cell-item title="城市" :arrow="false" :value="user.city || '-'" />
+        <u-cell-item title="城市" :border-bottom="false" :arrow="false" :value="user.city || '-'" />
       </u-cell-group>
     </view>
-  </view>
+
+    <u-gap height="50" v-if="user" />
+
+    <ui-button v-if="user" @click="onLogoutClick">退出登录</ui-button>
+
+    <u-modal
+      v-model="show"
+      title="提示"
+      content="退出后将无法使用预约功能，您确定要退出么？"
+      confirm-color="#ff1c3d"
+      @confirm="onLogoutConfirm"
+    />
+  </page-arc>
 </template>
 
 <script>
 import { mapActions, mapState } from 'vuex'
+import UserPanel from '@/components/common/user-panel.vue'
 
 export default {
   name: 'info',
+  components: { UserPanel },
   computed: {
     ...mapState('auth', ['user'])
   },
+  data() {
+    return {
+      show: false
+    }
+  },
   methods: {
-    ...mapActions('auth', ['updateUser']),
-    onRefreshClick() {
+    ...mapActions('auth', ['updateUser', 'logout']),
+    onSyncClick() {
       this.updateUser()
+    },
+    onLogoutClick() {
+      this.show = true
+    },
+    onLogoutConfirm() {
+      this.logout().then(uni.reLaunch({ url: '/pages/guide/guide' }))
     }
   }
 }
 </script>
 
 <style lang="scss" scoped>
-.info {
-  position: relative;
-  padding: 0 30rpx;
+.btn {
+  height: 40rpx;
+  border-radius: 20rpx;
+  background-color: #fff;
+  box-shadow: 0 0 20rpx 0 rgba(0, 0, 0, 0.1);
+  color: $u-type-primary;
+  font-size: 24rpx;
+  line-height: 1em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
-  .arc {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    z-index: 0;
-  }
-  .panel {
-    position: relative;
-    z-index: 2;
-  }
-  .panel-base {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-
-    .left {
-      display: flex;
-      align-items: center;
-
-      .avatar {
-        width: 120rpx;
-        height: 120rpx;
-        border-radius: 50%;
-        overflow: hidden;
-        margin-left: 20rpx;
-        box-shadow: 0 0 20rpx 0 rgba(0, 0, 0, 0.1);
-      }
-
-      .base {
-        margin-left: 40rpx;
-
-        .nickname {
-          font-size: 36rpx;
-          color: #fff;
-          font-weight: 500;
-          padding: 0 10rpx;
-        }
-
-        .vip {
-          width: 138rpx;
-          height: 57rpx;
-        }
-      }
-    }
-
-    .right {
-      text-align: right;
-      margin-right: 20rpx;
-    }
-  }
-
-  .group {
-    border-radius: 10rpx;
-    overflow: hidden;
-  }
+.group {
+  border-radius: 10rpx;
+  overflow: hidden;
+  box-shadow: 0 0 30rpx 0 rgba(0, 0, 0, 0.1);
 }
 </style>

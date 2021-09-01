@@ -126,6 +126,15 @@ const actions = {
         })
         .catch((e) => reject(e))
     })
+  },
+  logout({ commit, state }) {
+    return new Promise((resolve) => {
+      const { session_key, openid } = state.user
+      commit('set_user', { session_key, openid })
+      commit('set_tickets', [])
+      commit('set_reserves', [])
+      resolve()
+    })
   }
 }
 
