@@ -13,14 +13,6 @@
         <view class="right">
           <view class="title">{{ item.coupon.title }}</view>
           <view class="expire">过期时间：{{ item.expired_at }}</view>
-          <view class="btn">
-            <text>点击领取</text>
-            <image
-              class="arrow"
-              src="https://project-dscc.oss-cn-chengdu.aliyuncs.com/static/images/icon-arrow-right.png"
-              mode="aspectFit"
-            />
-          </view>
         </view>
       </view>
     </block>
