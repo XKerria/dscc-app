@@ -7,7 +7,7 @@
     </user-panel>
 
     <view class="group">
-      <u-cell-group>
+      <u-cell-group :border="false">
         <u-cell-item title="性别" :arrow="false">
           <u-icon v-if="1" name="man" />
           <u-icon v-else-if="2" name="woman" />

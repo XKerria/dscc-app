@@ -18,7 +18,7 @@
       <action icon="coupon" @click="onWalletClick">我的券包</action>
       <action icon="clock" @click="onReservesClick">我的预约</action>
       <action icon="service" @click="onPhoneClick">联系客服</action>
-      <action icon="user" @click="onInfoClick">信息设置</action>
+      <action icon="user" :border-bottom="false" @click="onInfoClick">信息设置</action>
     </view>
 
     <u-gap height="50" />
