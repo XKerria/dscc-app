@@ -3,7 +3,7 @@
     <swiper class="swiper" @change="onSwiperChange" autoplay :interval="5000">
       <block v-for="item of guides" :key="item.id">
         <swiper-item>
-          <view class="banner" :style="{ backgroundImage: `url(${item.image})` }"></view>
+          <view class="banner" :style="{ backgroundImage: `url(${item.image_url})` }"></view>
         </swiper-item>
       </block>
     </swiper>
@@ -41,12 +41,6 @@ export default {
       this.current = e.detail.current
     },
     onClick() {
-      // if (!this.user.id || !this.user.nickname) {
-      //   this.updateUser().then(() => {
-      //     uni.redirectTo({ url: '/pages/index/index' })
-      //   })
-      //   return
-      // }
       uni.redirectTo({ url: '/pages/index/index' })
     }
   }

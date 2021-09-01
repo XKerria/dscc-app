@@ -47,7 +47,6 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
 import TrustCard from './components/trust-card.vue'
 import ContactCard from '@/components/common/contact-card.vue'
 import PaidList from './components/paid-list.vue'
@@ -61,7 +60,10 @@ export default {
     ContactCard
   },
   computed: {
-    ...mapGetters('glob', ['banners'])
+    banners() {
+      const arr = this.$store.getters['glob/banners']
+      return arr.map((i) => ({ ...i, image: i.image_url }))
+    }
   },
   data() {
     return {
