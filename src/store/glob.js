@@ -58,7 +58,7 @@ const mutations = {
 
 const actions = {
   loadBanners({ commit }) {
-    bannerApi.index().then((data) => {
+    bannerApi.index({ order: 'priority' }).then((data) => {
       commit('set_banners', data)
     })
   },
@@ -99,7 +99,7 @@ const actions = {
     })
   },
   loadSales({ commit }) {
-    saleApi.index().then((data) => {
+    saleApi.index({ order: 'priority' }).then((data) => {
       commit('set_sales', data)
     })
   },

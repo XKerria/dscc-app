@@ -1,7 +1,7 @@
 <template>
   <view class="page sales">
     <block v-for="item of sales" :key="item.id">
-      <image class="item" :src="item.image_url" mode="aspectFill" @click="onSaleClick(item)" />
+      <image class="item" :src="item.cover_url" mode="aspectFill" @click="onSaleClick(item)" />
     </block>
   </view>
 </template>
