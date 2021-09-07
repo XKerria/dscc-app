@@ -21,7 +21,7 @@ export default {
   name: 'trust-card',
   data() {
     return {
-      items: ['车辆托管', '收费垫资', '征信代购', '车辆代售库', '收益计算']
+      items: ['车辆托管', '首付垫资', '征信代购', '待售车辆', '收益计算', '购车托管']
     }
   },
   methods: {

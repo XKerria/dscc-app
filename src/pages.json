@@ -71,13 +71,13 @@
     {
       "path": "pages/sales/sales",
       "style": {
-        "navigationBarTitleText": "车辆代售库"
+        "navigationBarTitleText": "待售车辆"
       }
     },
     {
       "path": "pages/sale/sale",
       "style": {
-        "navigationBarTitleText": "车辆代售库"
+        "navigationBarTitleText": "待售车辆"
       }
     },
     {

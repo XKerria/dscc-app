@@ -44,7 +44,7 @@ export default {
   },
   methods: {
     onServiceClick(service) {
-      if (service.name === '车辆代售库') {
+      if (service.name === '待售车辆') {
         uni.navigateTo({ url: `/pages/sales/sales` })
         return
       }
