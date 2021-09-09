@@ -8,8 +8,8 @@
     <view class="wrapper">
       <view class="title">托管服务</view>
       <view class="services">
-        <block v-for="(item, index) of items" :key="index">
-          <view class="service">{{ item }}</view>
+        <block v-for="(item, index) of services" :key="index">
+          <view class="service">{{ item.name }}</view>
         </block>
       </view>
     </view>
@@ -17,11 +17,18 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
+
 export default {
   name: 'trust-card',
-  data() {
-    return {
-      items: ['车辆托管', '首付垫资', '征信代购', '待售车辆', '收益计算', '购车托管']
+  computed: {
+    category() {
+      const result = this.$store.state.glob.categories.find((i) => i.name === '托管服务')
+      return result ?? null
+    },
+    services() {
+      const result = this.$store.state.glob.services.filter((i) => i.category_id === this.category.id)
+      return result ?? []
     }
   },
   methods: {
