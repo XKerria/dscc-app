@@ -20,7 +20,7 @@
     </view>
     <view class="footer">
       <jump-to v-if="name === '自驾'" @jump="onJumpClick" @call="onCallClick" />
-      <no-reserve v-else-if="['车辆托管', '首付垫付', '征信代购'].includes(name)" @call="onCallClick" />
+      <no-reserve v-else-if="['车辆托管', '首付垫资', '征信代购'].includes(name)" @call="onCallClick" />
       <service-footer v-else @reserve="onReserveClick" @call="onCallClick" />
     </view>
 
