@@ -33,6 +33,10 @@
         <free-list />
       </block>
       <u-gap height="60" />
+      <view class="section-title">高端娱乐</view>
+      <u-gap height="50" />
+      <advanced-card @click="onCategoryClick('高端娱乐')" />
+      <u-gap height="60" />
       <view class="section-title">托管服务</view>
       <u-gap height="50" />
       <trust-card @click="onCategoryClick('托管服务')" />
@@ -51,18 +55,20 @@ import TrustCard from './components/trust-card.vue'
 import ContactCard from '@/components/common/contact-card.vue'
 import PaidList from './components/paid-list.vue'
 import FreeList from './components/free-list.vue'
+import AdvancedCard from './components/advanced-card.vue'
 
 export default {
   components: {
     PaidList,
     FreeList,
     TrustCard,
-    ContactCard
+    ContactCard,
+    AdvancedCard
   },
   computed: {
     banners() {
       const arr = this.$store.getters['glob/banners']
-      return arr.map((i) => ({ ...i, image: i.image_url }))
+      return arr.map(i => ({ ...i, image: i.image_url }))
     }
   },
   data() {

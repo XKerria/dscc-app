@@ -23,6 +23,14 @@
       <text>汽车维修</text>
       <text>紧急救援</text>
     </category-card>
+    <category-card name="飞行服务" alias="flight">
+      <text>直升飞机</text>
+      <text>公务机</text>
+    </category-card>
+    <category-card name="赛车服务" alias="racing">
+      <text>漂移赛车</text>
+      <text>K1赛车</text>
+    </category-card>
   </view>
 </template>
 
