@@ -20,7 +20,7 @@
     </view>
     <view class="footer">
       <jump-to v-if="name === '自驾'" @jump="onJumpClick" @call="onCallClick" />
-      <no-reserve v-else-if="['车辆托管', '购车托管', '首付垫资', '征信代购'].includes(name)" @call="onCallClick" />
+      <no-reserve v-else-if="excludes.includes(name)" @call="onCallClick" />
       <service-footer v-else @reserve="onReserveClick" @call="onCallClick" />
     </view>
 
@@ -36,13 +36,35 @@ import ServiceFooter from './components/footer'
 import JumpTo from './components/jump-to'
 import NoReserve from './components/no-reserve'
 
+const excludes = [
+  '车辆托管',
+  '购车托管',
+  '首付垫资',
+  '征信代购',
+  'BDK银座直升机',
+  'BDK漂移学院',
+  'K1赛车联盟',
+  '贵阳·一日精品路线（一号线）',
+  '贵阳·一日精品路线（二号线）',
+  '贵阳·一日精品路线（三号线）',
+  '贵阳·两日精品路线（一号线）',
+  '贵阳·两日精品路线（二号线）',
+  '贵阳·两日精品路线（三号线）',
+  '贵州·两日精品路线（一号线）',
+  '贵州·两日精品路线（二号线）',
+  '贵州·两日精品路线（三号线）',
+  '贵州·五日精品路线（一号线）',
+  '贵州·五日精品路线（二号线）',
+  '贵州·五日精品路线（三号线）'
+]
+
 export default {
   name: 'service',
   components: { PhoneBind, ServiceFooter, JumpTo, NoReserve },
   computed: {
     ...mapState('auth', ['user']),
     service() {
-      return this.$store.state.glob.services.find((i) => i.name === this.name)
+      return this.$store.state.glob.services.find(i => i.name === this.name)
     },
     jumpTo() {
       return this.$store.getters['glob/setting']('关联小程序ID')
@@ -57,7 +79,8 @@ export default {
   data() {
     return {
       name: '',
-      muted: true
+      muted: true,
+      excludes
     }
   },
   onLoad(params) {
