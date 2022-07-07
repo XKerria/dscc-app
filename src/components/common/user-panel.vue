@@ -50,16 +50,21 @@ export default {
 
     .base {
       margin-left: 40rpx;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: center;
 
       .nickname {
         font-size: 36rpx;
-        line-height: 1em;
+        line-height: 1;
         color: #fff;
         font-weight: 500;
         padding: 0 10rpx;
       }
 
       .vip {
+        margin-top: 10rpx;
         width: 138rpx;
         height: 57rpx;
       }

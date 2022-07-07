@@ -51,6 +51,12 @@
       }
     },
     {
+      "path": "pages/user/register",
+      "style": {
+        "navigationBarTitleText": "成为会员"
+      }
+    },
+    {
       "path": "pages/user/vip",
       "style": {
         "navigationBarTitleText": "我的VIP"
