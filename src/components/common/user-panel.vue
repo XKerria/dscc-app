@@ -8,7 +8,7 @@
         <view class="nickname">
           <open-data type="userNickName"></open-data>
         </view>
-        <image v-if="user.vip" :src="user.vip.icon_url" class="vip" mode="aspectFit" />
+        <image v-if="user.vip" :src="user.vip.icon_url" class="vip" mode="heightFix" />
       </view>
     </view>
 
@@ -52,21 +52,20 @@ export default {
       margin-left: 40rpx;
       display: flex;
       flex-direction: column;
-      justify-content: flex-start;
-      align-items: center;
+      justify-content: center;
+      align-items: flex-start;
 
       .nickname {
         font-size: 36rpx;
         line-height: 1;
         color: #fff;
         font-weight: 500;
-        padding: 0 10rpx;
       }
 
       .vip {
-        margin-top: 10rpx;
-        width: 138rpx;
-        height: 57rpx;
+        display: inline-block;
+        margin-top: 20rpx;
+        height: 36rpx;
       }
     }
   }
