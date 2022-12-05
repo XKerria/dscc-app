@@ -4,6 +4,8 @@ import uView from 'uview-ui'
 import httpApi from '@/common/http.api.js'
 import httpInterceptor from '@/common/http.interceptor.js'
 import store from './store'
+import { share } from './mixins'
+Vue.mixin(share)
 
 Vue.config.productionTip = false
 
